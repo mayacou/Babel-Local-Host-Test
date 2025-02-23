@@ -46,7 +46,7 @@ def save_to_json(data, output_json):
    print(f"✅ JSON data saved to {output_json}")
 
 if __name__ == "__main__":
-   # put txt files as source and reference in here
+   # CHANGE FILE NAMES HERE
    source_file = "Europarl.en-fr.en"
    reference_file = "Europarl.en-fr.fr"
    

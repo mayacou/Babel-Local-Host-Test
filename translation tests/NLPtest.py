@@ -4,7 +4,7 @@ from load_data import load_data_from_json
 
 DATA_JSON = "data.json"
 # adjust based on sample size
-BATCH_SIZE = 10
+BATCH_SIZE = 5
 # The models should only be helsinki, other hugging face models will need a system prompt to tell it how to translate.
 MODEL_NAME = "Helsinki-NLP/opus-mt-en-fr"
 

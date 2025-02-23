@@ -1,0 +1,6 @@
+1. Download EuroParl Bilingual data in Moses Format: https://opus.nlpl.eu/Europarl/corpus/version/Europarl 
+Click on purple bar on a language then click the language pair below it that is en-xx and download. 
+Take the .en and .xx files and put those into the test folder. Example file names: Europarl.en-fr.fr & Europarl.en-fr.en.
+2. Get a sample from the two files by using sampler.py - adjust the file names at the bottom of the code.
+3. Run NLPtest.py (make sure language and prompt are set, it's French right now) and it should output a BLEU score and COMET score.
+To run GPTtest.py on the same data, add API key in .env first then run it.
