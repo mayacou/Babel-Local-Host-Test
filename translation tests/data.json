@@ -1,0 +1,22 @@
+[
+    {
+        "input": "Even though I welcome the efforts made by the members of Parliament's Committee on Transport to limit the reduction of this funding, I cannot vote in favour of this report, and I will be abstaining in the final vote.",
+        "reference": "Même si je salue les efforts consentis par les membres de la commission des transports du Parlement pour limiter la diminution de cette enveloppe, je ne pourrai donc pas voter en faveur de ce rapport, et je m’ abstiendrai sur le vote final."
+    },
+    {
+        "input": "– Mr President, Commissioner, road freight transport in Europe has increased enormously over recent decades and will increase by more than 60% by 2013.",
+        "reference": "- Monsieur le Président, Monsieur le Commissaire, le transport routier de marchandises en Europe a crû énormément ces dernières décennies et augmentera de plus de 60% d’ ici 2013."
+    },
+    {
+        "input": "This is a huge figure.",
+        "reference": "C’ est énorme."
+    },
+    {
+        "input": "This increase certainly has numerous negative consequences which we all know about: pollution, congestion of the roads, accidents and particularly high infrastructure maintenance costs.",
+        "reference": "Cette augmentation entraîne certainement de nombreuses conséquences négatives que nous connaissons tous: la pollution, la congestion des routes, les accidents et, surtout, les coûts élevés d’ entretien des infrastructures."
+    },
+    {
+        "input": "The way to cut this spiralling increase in road transport and limit its negative consequences is to develop alternative forms of transport and, in particular, to strengthen short-distance maritime transport by creating motorways of the sea and rail and inland waterway transport.",
+        "reference": "Pour stopper cette escalade du transport routier et limiter ses conséquences négatives, il faut développer d’ autres formes de transport et, en particulier, renforcer le transport maritime à courte distance en créant des autoroutes de la mer et en favorisant les transports ferroviaire et fluvial."
+    }
+]

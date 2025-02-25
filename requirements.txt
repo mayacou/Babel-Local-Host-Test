@@ -1,0 +1,7 @@
+# pip install -r requirements.txt
+transformers 
+sacrebleu 
+unbabel-comet
+openai
+python-dotenv
+requests
