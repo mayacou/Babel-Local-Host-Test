@@ -39,8 +39,8 @@ MODELS_TO_TEST = {
     "Helsinki-NLP/opus-mt-en-sl",  # English → Slovenian
     "Helsinki-NLP/opus-mt-en-es",  # English → Spanish
     "Helsinki-NLP/opus-mt-en-sv",  # English → Swedish
-    "Helsinki-NLP/opus-mt-en-tr",   # English → Turkish
-    #25 of 28 languages found for wmt24++ (this dataset) missing English(bc its source lang), Luxembourgish, Montenegrin
+    "Helsinki-NLP/opus-mt-en-tr",  # English → Turkish
+    #24 of 28 languages found for wmt24++ (this dataset) missing English(bc its source lang), Luxembourgish, Montenegrin, norwegian
 }
 
 WMT_DATASET = "wmt24++"
