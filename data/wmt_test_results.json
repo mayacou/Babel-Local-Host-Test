@@ -1,0 +1,27 @@
+[
+    {
+        "model": "Helsinki-NLP/opus-mt-en-fr",
+        "BLEU": 31.47,
+        "COMET": 0.84
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-de",
+        "BLEU": 21.01,
+        "COMET": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-fr",
+        "BLEU": 31.47,
+        "COMET": 0.84
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-de",
+        "BLEU": 21.01,
+        "COMET": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-cs",
+        "BLEU": 19.55,
+        "COMET": 0.85
+    }
+]

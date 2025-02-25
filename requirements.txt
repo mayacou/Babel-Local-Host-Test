@@ -1,7 +1,11 @@
 # pip install -r requirements.txt
 transformers 
-sacrebleu 
+torch
+pytest
+sacremoses
+datasets
+transformers
+nltk
+sacrebleu
 unbabel-comet
-openai
-python-dotenv
-requests
+torch
