@@ -1,0 +1,434 @@
+[
+    {
+        "model": "Helsinki-NLP/opus-mt-en-bg",
+        "Langauge": "bg",
+        "BLEU": 37.79,
+        "COMET": 0.94
+    },
+    {
+        "model": "Google Translate",
+        "Language": "bg",
+        "bleu": 35.94,
+        "comet": 0.94
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-bg",
+        "Langauge": "bg",
+        "BLEU": 51.54,
+        "COMET": 0.95
+    },
+    {
+        "model": "Google Translate",
+        "Language": "bg",
+        "bleu": 35.94,
+        "comet": 0.94
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-cs",
+        "Langauge": "cs",
+        "BLEU": 28.8,
+        "COMET": 0.94
+    },
+    {
+        "model": "Google Translate",
+        "Language": "cs",
+        "bleu": 21.49,
+        "comet": 0.84
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-da",
+        "Langauge": "da",
+        "BLEU": 39.52,
+        "COMET": 0.83
+    },
+    {
+        "model": "Google Translate",
+        "Language": "da",
+        "bleu": 20.55,
+        "comet": 0.78
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-nl",
+        "Langauge": "nl",
+        "BLEU": 37.86,
+        "COMET": 0.9
+    },
+    {
+        "model": "Google Translate",
+        "Language": "nl",
+        "bleu": 31.5,
+        "comet": 0.89
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-et",
+        "Langauge": "et",
+        "BLEU": 27.22,
+        "COMET": 0.94
+    },
+    {
+        "model": "Google Translate",
+        "Language": "et",
+        "bleu": 14.1,
+        "comet": 0.9
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-et",
+        "Langauge": "et",
+        "BLEU": 24.25,
+        "COMET": 0.93
+    },
+    {
+        "model": "Google Translate",
+        "Language": "et",
+        "bleu": 14.1,
+        "comet": 0.9
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-fi",
+        "Langauge": "fi",
+        "BLEU": 33.55,
+        "COMET": 0.92
+    },
+    {
+        "model": "Google Translate",
+        "Language": "fi",
+        "bleu": 15.39,
+        "comet": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-fi",
+        "Langauge": "fi",
+        "BLEU": 41.08,
+        "COMET": 0.94
+    },
+    {
+        "model": "Google Translate",
+        "Language": "fi",
+        "bleu": 15.18,
+        "comet": 0.82
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-fr",
+        "Langauge": "fr",
+        "BLEU": 45.64,
+        "COMET": 0.91
+    },
+    {
+        "model": "Google Translate",
+        "Language": "fr",
+        "bleu": 41.3,
+        "comet": 0.9
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-fr",
+        "Langauge": "fr",
+        "BLEU": 43.49,
+        "COMET": 0.9
+    },
+    {
+        "model": "Google Translate",
+        "Language": "fr",
+        "bleu": 41.3,
+        "comet": 0.9
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-de",
+        "Langauge": "de",
+        "BLEU": 19.74,
+        "COMET": 0.85
+    },
+    {
+        "model": "Google Translate",
+        "Language": "de",
+        "bleu": 20.57,
+        "comet": 0.72
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-el",
+        "Langauge": "el",
+        "BLEU": 28.64,
+        "COMET": 0.91
+    },
+    {
+        "model": "Google Translate",
+        "Language": "el",
+        "bleu": 19.58,
+        "comet": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-el",
+        "Langauge": "el",
+        "BLEU": 31.9,
+        "COMET": 0.93
+    },
+    {
+        "model": "Google Translate",
+        "Language": "el",
+        "bleu": 19.58,
+        "comet": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-hu",
+        "Langauge": "hu",
+        "BLEU": 33.78,
+        "COMET": 0.93
+    },
+    {
+        "model": "Google Translate",
+        "Language": "hu",
+        "bleu": 33.22,
+        "comet": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-hu",
+        "Langauge": "hu",
+        "BLEU": 34.27,
+        "COMET": 0.94
+    },
+    {
+        "model": "Google Translate",
+        "Language": "hu",
+        "bleu": 33.22,
+        "comet": 0.87
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-it",
+        "Langauge": "it",
+        "BLEU": 34.12,
+        "COMET": 0.88
+    },
+    {
+        "model": "Google Translate",
+        "Language": "it",
+        "bleu": 28.26,
+        "comet": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-it",
+        "Langauge": "it",
+        "BLEU": 37.14,
+        "COMET": 0.9
+    },
+    {
+        "model": "Google Translate",
+        "Language": "it",
+        "bleu": 28.26,
+        "comet": 0.85
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-lv",
+        "Langauge": "lv",
+        "BLEU": 42.2,
+        "COMET": 0.95
+    },
+    {
+        "model": "Google Translate",
+        "Language": "lv",
+        "bleu": 38.85,
+        "comet": 0.92
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-lt",
+        "Langauge": "lt",
+        "BLEU": 28.89,
+        "COMET": 0.93
+    },
+    {
+        "model": "Google Translate",
+        "Language": "lt",
+        "bleu": 22.03,
+        "comet": 0.87
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-pt",
+        "Langauge": "pt",
+        "BLEU": 34.1,
+        "COMET": 0.86
+    },
+    {
+        "model": "Google Translate",
+        "Language": "pt",
+        "bleu": 18.74,
+        "comet": 0.8
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-ro",
+        "Langauge": "ro",
+        "BLEU": 40.11,
+        "COMET": 0.94
+    },
+    {
+        "model": "Google Translate",
+        "Language": "ro",
+        "bleu": 33.51,
+        "comet": 0.86
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-ro",
+        "Langauge": "ro",
+        "BLEU": 44.26,
+        "COMET": 0.92
+    },
+    {
+        "model": "Google Translate",
+        "Language": "ro",
+        "bleu": 33.51,
+        "comet": 0.86
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-sk",
+        "Langauge": "sk",
+        "BLEU": 27.73,
+        "COMET": 0.92
+    },
+    {
+        "model": "Google Translate",
+        "Language": "sk",
+        "bleu": 26.01,
+        "comet": 0.87
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-es",
+        "Langauge": "es",
+        "BLEU": 52.17,
+        "COMET": 0.9
+    },
+    {
+        "model": "Google Translate",
+        "Language": "es",
+        "bleu": 42.91,
+        "comet": 0.87
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-es",
+        "Langauge": "es",
+        "BLEU": 53.03,
+        "COMET": 0.9
+    },
+    {
+        "model": "Google Translate",
+        "Language": "es",
+        "bleu": 42.91,
+        "comet": 0.87
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-sv",
+        "Langauge": "sv",
+        "BLEU": 9.22,
+        "COMET": 0.88
+    },
+    {
+        "model": "Google Translate",
+        "Language": "sv",
+        "bleu": 8.43,
+        "comet": 0.82
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-bg",
+        "Langauge": "bg",
+        "BLEU": 37.79,
+        "COMET": 0.94
+    },
+    {
+        "model": "Google Translate",
+        "Language": "bg",
+        "bleu": 35.94,
+        "comet": 0.94
+    },
+    {
+        "model": "ChatGPT-4o-mini",
+        "Language": "bg",
+        "bleu": 38.73,
+        "comet": 0.95
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-bg",
+        "Langauge": "bg",
+        "BLEU": 37.79,
+        "COMET": 94.28
+    },
+    {
+        "model": "Google Translate",
+        "Language": "bg",
+        "bleu": 35.94,
+        "comet": 94.01
+    },
+    {
+        "model": "ChatGPT-4o-mini",
+        "Language": "bg",
+        "bleu": 49.02,
+        "comet": 96.2
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-tc-big-en-bg",
+        "Langauge": "bg",
+        "BLEU": 51.54,
+        "COMET": 94.98
+    },
+    {
+        "model": "Google Translate",
+        "Language": "bg",
+        "bleu": 35.94,
+        "comet": 94.01
+    },
+    {
+        "model": "ChatGPT-4o-mini",
+        "Language": "bg",
+        "bleu": 47.93,
+        "comet": 95.62
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-cs",
+        "Langauge": "cs",
+        "BLEU": 28.8,
+        "COMET": 93.97
+    },
+    {
+        "model": "Google Translate",
+        "Language": "cs",
+        "bleu": 21.49,
+        "comet": 84.12
+    },
+    {
+        "model": "ChatGPT-4o-mini",
+        "Language": "cs",
+        "bleu": 36.99,
+        "comet": 95.33
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-da",
+        "Langauge": "da",
+        "BLEU": 39.52,
+        "COMET": 83.28
+    },
+    {
+        "model": "Google Translate",
+        "Language": "da",
+        "bleu": 20.55,
+        "comet": 77.9
+    },
+    {
+        "model": "ChatGPT-4o-mini",
+        "Language": "da",
+        "bleu": 23.52,
+        "comet": 84.92
+    },
+    {
+        "model": "Helsinki-NLP/opus-mt-en-nl",
+        "Langauge": "nl",
+        "BLEU": 37.86,
+        "COMET": 90.04
+    },
+    {
+        "model": "Google Translate",
+        "Language": "nl",
+        "bleu": 31.5,
+        "comet": 89.4
+    },
+    {
+        "model": "ChatGPT-4o-mini",
+        "Language": "nl",
+        "bleu": 31.61,
+        "comet": 89.83
+    }
+]
