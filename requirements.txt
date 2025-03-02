@@ -10,3 +10,5 @@ sacrebleu
 unbabel-comet
 torch
 sentencepiece
+pyton-dotenv
+google-generativeai
