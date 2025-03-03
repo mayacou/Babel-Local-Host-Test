@@ -2,10 +2,18 @@ import json
 import re
 from datasets import load_dataset
 
+TED_LANG_PAIRS = [
+    "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hr", "hu", "is", "it",
+    "lv", "lt", "mk", "pl", "pt", "ro", "sk", "sl", "sq", "es", "sv", "tr"
+]
+
 def load_ted_data(language_pair):
     """
     Load test data for the given language pair from the TED Talk dataset.
     """
+    if language_pair == "get_languages":
+        return TED_LANG_PAIRS
+    
     try:
         dataset = load_dataset("Helsinki-NLP/ted_talks_iwslt", language_pair)
     except ValueError:

@@ -1,0 +1,5 @@
+Dataset,Language,BLEU,COMET
+Europarl,sq,-1,-1
+Europarl,bg,37.79,94.28
+Europarl,bg,51.54,94.98
+Europarl,sh,-1,-1
