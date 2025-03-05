@@ -1,0 +1,16 @@
+Dataset,Language,BLEU,COMET
+Europarl,cs,22.8,0.91
+Europarl,da,24.04,0.78
+Europarl,et,26.22,0.89
+Europarl,fi,27.24,0.9
+Europarl,de,17.27,0.79
+Europarl,el,0.42,0.35
+Europarl,it,27.46,0.88
+Europarl,lv,1.04,0.31
+Europarl,pl,22.94,0.86
+Europarl,pt,15.01,0.67
+Europarl,ro,36.78,0.91
+Europarl,sk,22.92,0.93
+Europarl,sl,35.32,0.93
+Europarl,es,14.26,0.76
+Europarl,sv,9.92,0.85
