@@ -1,22 +1,21 @@
-import json
 import os
 import pytest
 import re
-from datasets import get_dataset_config_names, load_dataset
+import csv
 from helpers.model_loader import load_model, translate_text
 from helpers.evaluation import compute_bleu, compute_comet
+from datasets_loader.load_wmt import load_wmt_data  # Importing the function from load_wmt.py
 
 # Define the path for the results file inside the data folder
-RESULTS_FILE = "data/wmt_test_results.json"
+RESULTS_FILE = "data/wmt_test_results.csv"
 
 # Ensure the data/ directory exists
 os.makedirs("data", exist_ok=True)
 
 MODELS_TO_TEST = {
-    # Add all models here...
     "Helsinki-NLP/opus-mt-en-sq",
     "Helsinki-NLP/opus-mt-en-bg",
-    #"Helsinki-NLP/opus-mt-tc-base-en-sh",
+    "Helsinki-NLP/opus-mt-tc-base-en-sh",
     "Helsinki-NLP/opus-mt-en-cs",
     "Helsinki-NLP/opus-mt-en-da",
     "Helsinki-NLP/opus-mt-en-nl",
@@ -31,120 +30,88 @@ MODELS_TO_TEST = {
     "Helsinki-NLP/opus-mt-tc-big-en-lv",
     "Helsinki-NLP/opus-mt-tc-big-en-lt",
     "Helsinki-NLP/opus-mt-en-mk",
-    #"Helsinki-NLP/opus-mt-en-sla",
+    "Helsinki-NLP/opus-mt-en-sla",
     "Helsinki-NLP/opus-mt-tc-big-en-pt",
     "Helsinki-NLP/opus-mt-en-ro",
     "Helsinki-NLP/opus-mt-en-sk",
-    #"Helsinki-NLP/opus-mt-en-sla",
     "Helsinki-NLP/opus-mt-en-es",
     "Helsinki-NLP/opus-mt-en-sv",
     "Helsinki-NLP/opus-mt-tc-big-en-tr",
 }
 
-WMT_DATASET = "google/wmt24pp"
-
-def load_wmt_data(model_name):
-    """Load test data dynamically based on the model's language pair."""
-    print(f"Loading dataset for model: {model_name}")
-
-    # Auto-extract source & target languages from model name
-    match = re.search(r"opus-mt(?:-[a-z]+)*-(\w+)-(\w+)", model_name)
+def extract_language_pair_from_model(model_name):
+    """
+    Extracts the target language from the model name using regex.
+    Returns a list of target languages if "sla" is detected.
+    """
+    match = re.search(r"opus-mt(?:-[a-z]+)*-en-([\w]+)", model_name)
     if not match:
         raise ValueError(f"Could not extract language pair from model: {model_name}")
 
-    source_lang, target_lang = match.groups()
+    target_lang = match.group(1)  # Extracts the target language code
+    
+    # If "sla" is detected, return multiple languages
+    if target_lang == "sla":
+        return ["hr", "pl", "sl"]  # Croatian, Polish, Slovenian
 
-    # Ensure correct dataset naming using the full region codes
-    LANGUAGE_CODE_MAP = {
-        "ar": "ar_SA", "bg": "bg_BG", "bn": "bn_IN", "ca": "ca_ES", "cs": "cs_CZ",
-        "da": "da_DK", "de": "de_DE", "el": "el_GR", "es": "es_MX", "et": "et_EE",
-        "fi": "fi_FI", "fr": "fr_FR", "hi": "hi_IN", "hu": "hu_HU", "is": "is_IS",
-        "it": "it_IT", "lt": "lt_LT", "lv": "lv_LV", "nl": "nl_NL", "pl": "pl_PL",
-        "pt": "pt_PT", "ro": "ro_RO", "ru": "ru_RU", "sk": "sk_SK", "sv": "sv_SE",
-        "tr": "tr_TR", "uk": "uk_UA", "zh": "zh_CN",
-    }
+    return [target_lang]  # Wrap in a list for consistency
 
-    if target_lang not in LANGUAGE_CODE_MAP:
-        print(f"⚠️ Skipping {model_name}: Language {target_lang} not found in mapping.")
-        pytest.skip(f"Skipping {model_name}: Language {target_lang} not found.")
+def save_results_to_csv(model_name, target_lang, bleu_score, comet_score):
+    """
+    Save model results to wmt_test_results.csv.
+    If BLEU or COMET is 'NA', it means the dataset was not found.
+    """
+    file_exists = os.path.isfile(RESULTS_FILE)
 
-    dataset_name = f"en-{LANGUAGE_CODE_MAP[target_lang]}"  # Correct naming format
+    with open(RESULTS_FILE, mode="a", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
 
-    print(f"🔎 Detected Language Pair: en → {target_lang} | Using Dataset: {dataset_name}")
+        # Write header only if the file is new
+        if not file_exists:
+            writer.writerow(["Model", "Target Language", "BLEU Score", "COMET Score"])
 
-    # Load dataset
-    try:
-        dataset = load_dataset(WMT_DATASET, dataset_name)
-    except ValueError:
-        print(f"⚠️ Skipping {model_name}: No dataset found for {dataset_name}.")
-        pytest.skip(f"Skipping {model_name}: No dataset found.")
-
-    # Use "train" split since others are empty
-    if "train" in dataset and len(dataset["train"]) > 0:
-        split_name = "train"
-    else:
-        print(f"⚠️ Skipping {model_name}: No usable split found.")
-        pytest.skip(f"Skipping {model_name}: No usable split found.")
-
-    # Convert dataset to list format
-    test_samples = list(dataset[split_name])[:5]  # Convert to list and take 5 samples
-
-    if not test_samples:
-        print(f"⚠️ Skipping {model_name}: No test samples found.")
-        pytest.skip(f"Skipping {model_name}: No test samples found.")
-
-    # Debugging print
-    print(f"📝 First Sample: {test_samples[0]}")  
-
-    sources = [sample["source"] for sample in test_samples]
-    references = [sample["target"] for sample in test_samples]  # Use post-edit as reference
-
-    return sources, references
-
-
+        writer.writerow([
+            model_name,
+            target_lang,
+            "NA" if bleu_score is None else round(bleu_score, 2),
+            "NA" if comet_score is None else round(comet_score, 2),
+        ])
 
 @pytest.mark.parametrize("model_name", MODELS_TO_TEST)
 def test_translation_quality(model_name, request):
-    """Test translation models using WMT data and log results in JSON."""
+    """Test translation models using WMT data and log results in CSV."""
     model, tokenizer = load_model(model_name)
-    sources, references = load_wmt_data(model_name)  # Pass model name as argument
+    
+    # Extract language pair(s)
+    target_langs = extract_language_pair_from_model(model_name)
 
-    hypotheses = [translate_text(model, tokenizer, sentence) for sentence in sources]
+    for target_lang in target_langs:
+        print(f"🔍 Extracted language pair for {model_name}: {target_lang}")  # Debugging
+        sources, references = load_wmt_data(target_lang)  # Now using the function from load_wmt.py
 
-    # Compute evaluation metrics
-    bleu_score = compute_bleu(references, hypotheses)
-    comet_score = compute_comet(references, hypotheses, sources)
+        if not sources or not references:
+            print(f"⚠️ Skipping {model_name} ({target_lang}): No dataset found. Logging 'NA' to CSV.")
+            save_results_to_csv(model_name, target_lang, None, None)  # Save "NA" result
+            pytest.skip(f"Skipping {model_name} ({target_lang}): No test data available.")
+            continue
 
-    # Debugging print statements
-    print("\n--- Translation Debugging Output ---")
-    for src, hyp, ref in zip(sources, hypotheses, references):
-        print(f"🔹 Source: {src}")
-        print(f"🔹 Hypothesis: {hyp}")
-        print(f"🔹 Reference: {ref}")
-        print("----")
+        # Generate translations with the target language token
+        hypotheses = [translate_text(model, tokenizer, sentence, target_lang) for sentence in sources]
 
-    result = {
-        "model": model_name,
-        "BLEU": round(bleu_score, 2),
-        "COMET": round(comet_score, 2),
-    }
+        # Compute evaluation metrics
+        bleu_score = compute_bleu(references, hypotheses)
+        comet_score = compute_comet(references, hypotheses, sources)
 
-    print(result)
+        # Debugging print statements
+        print("\n--- Translation Debugging Output ---")
+        for src, hyp, ref in zip(sources, hypotheses, references):
+            print(f"🔹 Source: {src}")
+            print(f"🔹 Hypothesis: {hyp}")
+            print(f"🔹 Reference: {ref}")
+            print("----")
 
-    # Save results
-    if os.path.exists(RESULTS_FILE):
-        with open(RESULTS_FILE, "r") as f:
-            try:
-                results = json.load(f)
-            except json.JSONDecodeError:
-                results = []
-    else:
-        results = []
+        # Save results to CSV
+        save_results_to_csv(model_name, target_lang, bleu_score, comet_score)
 
-    results.append(result)
-
-    with open(RESULTS_FILE, "w") as f:
-        json.dump(results, f, indent=4)
-
-    assert bleu_score > 10, "BLEU score is too low!"
-    assert comet_score > 0.5, "COMET score is too low!"
+        assert bleu_score > 10, "BLEU score is too low!"
+        assert comet_score > 0.5, "COMET score is too low!"

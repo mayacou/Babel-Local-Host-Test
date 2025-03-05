@@ -1,42 +1,55 @@
-import json
-import re
+import random
 from datasets import load_dataset
 
-# Mapping of available WMT24PP language pairs
-WMT24PP_LANGUAGE_PAIRS = [
-    "ar_EG", "ar_SA", "bg_BG", "bn_IN", "ca_ES", "cs_CZ", "da_DK", "de_DE",
-    "el_GR", "es_MX", "et_EE", "fa_IR", "fi_FI", "fr_CA", "fr_FR", "gu_IN", "he_IL", 
-    "hi_IN", "hr_HR", "hu_HU", "id_ID", "is_IS", "it_IT", "ja_JP", "kn_IN", "ko_KR", 
-    "lt_LT", "lv_LV", "ml_IN", "mr_IN", "nl_NL", "no_NO", "pa_IN", "pl_PL", "pt_BR", 
-    "pt_PT", "ro_RO", "ru_RU", "sk_SK", "sl_SI", "sr_RS", "sv_SE", "sw_KE", "sw_TZ", 
-    "ta_IN", "te_IN", "th_TH", "tr_TR", "uk_UA", "ur_PK", "vi_VN", "zh_CN", "zh_TW"
-]
+# Mapping of available WMT24PP language pairs (full locale names)
+LANGUAGE_CODE_MAP = {
+    "ar": "ar_SA", "bg": "bg_BG", "bn": "bn_IN", "ca": "ca_ES", "cs": "cs_CZ",
+    "da": "da_DK", "de": "de_DE", "el": "el_GR", "es": "es_MX", "et": "et_EE",
+    "fa": "fa_IR", "fi": "fi_FI", "fr": "fr_FR", "hi": "hi_IN", "hu": "hu_HU",
+    "is": "is_IS", "it": "it_IT", "ja": "ja_JP", "lt": "lt_LT", "lv": "lv_LV",
+    "nl": "nl_NL", "pl": "pl_PL", "pt": "pt_PT", "ro": "ro_RO", "ru": "ru_RU",
+    "sk": "sk_SK", "sv": "sv_SE", "tr": "tr_TR", "uk": "uk_UA", "zh": "zh_CN",
+    "hr": "hr_HR"
+}
 
 def load_wmt_data(language_pair):
     """
-    Load test data for the given language pair from the WMT dataset.
+    Load and shuffle test data for the given language pair from the WMT dataset.
     If "get_languages" is passed, return the list of available language pairs.
     """
     if language_pair == "get_languages":
-        return WMT24PP_LANGUAGE_PAIRS  # Return available language pairs
-    
-    dataset_name = f"en-{language_pair}"  # Adjust dataset naming convention if needed
-    
+        return list(LANGUAGE_CODE_MAP.values())  # Return mapped full region codes
+
+    # Ensure language_pair is mapped to full region format if needed
+    mapped_lang_pair = LANGUAGE_CODE_MAP.get(language_pair, language_pair)
+    dataset_name = f"en-{mapped_lang_pair}"  # Adjusted dataset name
+
+    print(f"🔎 Attempting to load dataset: {dataset_name}")  # Debugging output
+
     try:
         dataset = load_dataset("google/wmt24pp", dataset_name)
     except ValueError:
-        print(f"⚠️ Skipping {language_pair}: No dataset found.")
+        print(f"❌ Dataset {dataset_name} not found. Skipping...")
         return [], []
 
-    if "train" in dataset:
+    if "train" in dataset and len(dataset["train"]) > 0:
         split = "train"
     else:
-        print(f"⚠️ Skipping {language_pair}: No usable split found.")
+        print(f"❌ No usable split found for {dataset_name}. Skipping...")
         return [], []
 
-    test_samples = list(dataset[split])[:5]  # Take 5 samples
+    test_samples = list(dataset[split])
+
+    if not test_samples:
+        print(f"❌ No test samples found for {dataset_name}. Skipping...")
+        return [], []
+
+    # Shuffle dataset for randomness
+    random.seed(42)  # Ensures reproducibility
+    random.shuffle(test_samples)
+    test_samples = test_samples[:5]  # Take 5 shuffled samples
+
     sources = [sample["source"] for sample in test_samples]
     references = [sample["target"] for sample in test_samples]
-    
-    return sources, references
 
+    return sources, references
