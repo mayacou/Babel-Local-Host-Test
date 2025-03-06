@@ -38,6 +38,7 @@ with open(csv_filename, mode="w", newline="") as file:
             
             if not sources:
                 print(f"⚠️ Skipping {lang_pair} for {dataset_name}: No data available.")
+                writer.writerow([dataset_name, lang_pair, "NA", "NA"])
                 continue
 
             # Translate sentences with progress logging
