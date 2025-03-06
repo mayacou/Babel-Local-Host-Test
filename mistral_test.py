@@ -39,7 +39,7 @@ def run_test_for_language_pair(language_pair):
     hypotheses = []
 
     # Load model and tokenizer
-    model, tokenizer = load_model_and_tokenizer("mistralai/Mistral-7B-Instruct")
+    model, tokenizer = load_model_and_tokenizer("mistral")
 
     for sentence in sources:
         model_inputs = tokenizer(sentence.strip(), return_tensors="pt", padding=True, truncation=True, max_length=256)
