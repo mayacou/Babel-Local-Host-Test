@@ -34,7 +34,7 @@ def run_test_for_language_pair(language_pair):
         return -1, -1
 
     # Normalize references
-    # references = [ref.strip().lower() for ref in references]
+    references = [ref.strip().lower() for ref in references]
 
     # Load model and tokenizer (for example, using a "mistral" identifier)
     model, tokenizer = load_model_and_tokenizer("mistral")
@@ -42,7 +42,7 @@ def run_test_for_language_pair(language_pair):
     # Use perform_inference to generate hypotheses
     # perform_inference should take the list of source sentences along with the model and tokenizer,
     # and return generated translations (hypotheses) and optionally reference texts.
-    hypotheses, references = perform_inference(sources, model, tokenizer)
+    hypotheses, _ = perform_inference(sources, model, tokenizer)
     
     # Evaluate translations using BLEU and COMET
     bleu_score = compute_bleu(references, hypotheses)
@@ -53,7 +53,13 @@ def run_test_for_language_pair(language_pair):
 
     # Log results to CSV
     write_to_csv(RESULTS_CSV, "mistral", language_pair[1], round(bleu_score, 2), round(comet_score, 2))
-
+    # Free GPU memory
+    del model
+    del tokenizer
+    import torch
+    import gc
+    torch.cuda.empty_cache()
+    gc.collect()
     return bleu_score, comet_score
 
 def main():
