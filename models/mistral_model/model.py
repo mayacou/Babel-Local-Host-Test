@@ -3,7 +3,7 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from models.mistral_model.config import MODEL_NAME, QUANTIZATION_CONFIG, ATTN_IMPLEMENTATION, DEVICE_MAP, TORCH_DTYPE
 
-def minstral_load(model_name=MODEL_NAME, 
+def mistral_load(model_name=MODEL_NAME, 
                              quantization_config=QUANTIZATION_CONFIG, 
                              attn_implementation=ATTN_IMPLEMENTATION, 
                              device_map=DEVICE_MAP,
