@@ -52,7 +52,7 @@ def run_test_for_language_pair(language_pair):
     print(f"COMET Score: {comet_score}")
 
     # Log results to CSV
-    write_to_csv(RESULTS_CSV, language_pair[1], round(bleu_score, 2), round(comet_score, 2))
+    write_to_csv(RESULTS_CSV, "mistral", language_pair[1], round(bleu_score, 2), round(comet_score, 2))
 
     return bleu_score, comet_score
 
