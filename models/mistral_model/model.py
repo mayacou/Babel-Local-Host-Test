@@ -29,8 +29,8 @@ def perform_inference(test_data, model, tokenizer):
     reference_translations = []
 
     for example in test_data:
-        print("Example:", example)  # Print the current example to inspect its structure
-        print(type(example))  # Print the type of the current example
+        # print("Example:", example)  # Print the current example to inspect its structure
+        # print(type(example))  # Print the type of the current example
 
         # If 'example' is a string, you can't access it like a dictionary
         if isinstance(example, str):

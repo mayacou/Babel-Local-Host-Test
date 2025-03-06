@@ -2,7 +2,7 @@ from datasets import load_dataset, get_dataset_config_names
 import random
 from config.languages import WMT_LANG_PAIRS, TED_LANG_PAIRS, EUROPARL_LANG_PAIRS
 
-BATCH_SIZE = 50
+BATCH_SIZE = 10
 
 def load_opus_data(language_pair):
     """
