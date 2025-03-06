@@ -24,7 +24,7 @@ def mistral_load(model_name=MODEL_NAME,
     
     return model, tokenizer
 
-def perform_inference(test_data, model, tokenizer):
+
     generated_translations = []
     reference_translations = []
 
