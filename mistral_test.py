@@ -5,7 +5,7 @@ from scripts.data_loader import load_europarl_data
 from scripts.csv_helpers import write_to_csv
 from config.languages import EUROPARL_LANG_PAIRS
 from models.load_model import load_model_and_tokenizer
-from models.mistral.mistral_model import perform_inference
+from models.mistral_model.model import perform_inference
 
 # Define the path for the results CSV file
 RESULTS_CSV = "data/mistral_test_results.csv"
