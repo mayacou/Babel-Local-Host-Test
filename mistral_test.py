@@ -5,6 +5,7 @@ from scripts.data_loader import load_europarl_data
 from scripts.csv_helpers import write_to_csv
 from config.languages import EUROPARL_LANG_PAIRS
 from models.load_model import load_model_and_tokenizer
+from models.mistral.mistral_model import perform_inference
 
 # Define the path for the results CSV file
 RESULTS_CSV = "data/mistral_test_results.csv"
@@ -35,18 +36,14 @@ def run_test_for_language_pair(language_pair):
     # Normalize references
     references = [ref.strip().lower() for ref in references]
 
-    # Initialize hypotheses list
-    hypotheses = []
-
-    # Load model and tokenizer
+    # Load model and tokenizer (for example, using a "mistral" identifier)
     model, tokenizer = load_model_and_tokenizer("mistral")
 
-    for sentence in sources:
-        model_inputs = tokenizer(sentence.strip(), return_tensors="pt", padding=True, truncation=True, max_length=256)
-        output_tokens = model.generate(**model_inputs, num_beams=10, max_length=256, early_stopping=True)
-        hypothesis = tokenizer.batch_decode(output_tokens, skip_special_tokens=True)[0].strip().lower()
-        hypotheses.append(hypothesis)
-
+    # Use perform_inference to generate hypotheses
+    # perform_inference should take the list of source sentences along with the model and tokenizer,
+    # and return generated translations (hypotheses) and optionally reference texts.
+    hypotheses, _ = perform_inference(sources, model, tokenizer)
+    
     # Evaluate translations using BLEU and COMET
     bleu_score = compute_bleu(references, hypotheses)
     comet_score = compute_comet(references, hypotheses, sources)
@@ -80,11 +77,9 @@ def main():
         except Exception as e:
             logging.error(f"Error testing {language_pair}: {str(e)}")
 
-    # Optionally, save or log results
+    # Optionally, log all scores
     logging.info("\nAll scores: ")
     logging.info(all_scores)
-
-    # Also print final summary to console
     print("All scores logged to mistral_test_results.log")
 
 if __name__ == "__main__":
