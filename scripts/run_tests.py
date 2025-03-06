@@ -19,7 +19,7 @@ def run_test_for_language_pair(language_pair):
     
     # Extract source sentences (original sentences) from the test data
     source_sentences = [example['translation'][language_pair[0]] for example in test_data['test']]
-    print(f"Source Sentences for {first_language_name} -> {second_language_name}: {source_sentences}")
+    # print(f"Source Sentences for {first_language_name} -> {second_language_name}: {source_sentences}")
 
     # Load model and tokenizer
     model, tokenizer = load_model_and_tokenizer()
