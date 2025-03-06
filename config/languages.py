@@ -30,7 +30,6 @@ LANGUAGES = {
     'tr': 'Turkish',
 }
 
-
 WMT_LANG_PAIRS = {
     "bg": "bg_BG", "cs": "cs_CZ",
     "da": "da_DK", "de": "de_DE", "el": "el_GR", "es": "es_MX", "et": "et_EE",
@@ -40,13 +39,19 @@ WMT_LANG_PAIRS = {
     "sk": "sk_SK", "sv": "sv_SE", "tr": "tr_TR", "hr": "hr_HR"
 }
 
-TED_LANG_PAIRS = [
+# Convert TED and EUROPARL lists into dictionaries like WMT
+TED_LANG_PAIRS = {lang: lang for lang in [
     "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hr", "hu", "is", "it",
     "lv", "lt", "mk", "pl", "pt", "ro", "sk", "sl", "sq", "es", "sv", "tr"
-]
+]}
 
-EUROPARL_LANG_PAIRS = [
+EUROPARL_LANG_PAIRS = {lang: lang for lang in [
     "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "it",
     "lv", "lt", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
-]
+]}
 
+ALL_DATASET = {
+    "WMT": WMT_LANG_PAIRS,
+    "TED": TED_LANG_PAIRS,
+    "EUROPARL": EUROPARL_LANG_PAIRS
+}

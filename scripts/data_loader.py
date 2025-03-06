@@ -4,6 +4,23 @@ from config.languages import WMT_LANG_PAIRS, TED_LANG_PAIRS, EUROPARL_LANG_PAIRS
 
 BATCH_SIZE = 10
 
+def load_dataset_by_name(dataset_name, language_pair):
+    """
+    Load test data for the given language pair from the OPUS dataset.
+    """
+    if dataset_name == "WMT":
+        return load_wmt_data(language_pair)
+    elif dataset_name == "TED":
+        return load_tedTalk_data(language_pair)
+    elif dataset_name == "EUROPARL":
+        return load_europarl_data(language_pair)
+    elif dataset_name == "OPUS":
+        return load_opus_data(language_pair)
+    else:
+        print(f"❌ Dataset {dataset_name} not recognized.")
+        return [], []
+
+
 def load_opus_data(language_pair):
     """
     Load test data for the given language pair from the OPUS dataset.
