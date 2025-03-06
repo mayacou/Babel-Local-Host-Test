@@ -11,7 +11,8 @@ def mistral_load(model_name=MODEL_NAME,
                              ):
     # Load the tokenizer
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
     # Load the model with the configuration
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
