@@ -3,17 +3,16 @@ import csv
 from dotenv import load_dotenv
 from helpers.evaluation import compute_bleu, compute_comet
 from datasets_loader.load_wmt import load_wmt_data
-from datasets_loader.load_ted import load_ted_data
+from datasets_loader.load_tedTalk import load_tedTalk_data
 from datasets_loader.load_europarl import load_europarl_data
 
 load_dotenv()
-
 client = translate.Client()
 
 # Datasets to test
 DATASETS = {
-   #"WMT": load_wmt_data,
-   #"TED": load_ted_data,
+   "WMT": load_wmt_data,
+   "TED": load_tedTalk_data,
    "Europarl": load_europarl_data
 }
 

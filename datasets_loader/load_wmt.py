@@ -1,15 +1,14 @@
 import random
 from datasets import load_dataset
 
-# Mapping of available WMT24PP language pairs (full locale names)
+# Mapping of available WMT24PP language pairs (full locale names, change es_MX to es-ES if it exists)
 LANGUAGE_CODE_MAP = {
-    "ar": "ar_SA", "bg": "bg_BG", "bn": "bn_IN", "ca": "ca_ES", "cs": "cs_CZ",
+    "bg": "bg_BG", "cs": "cs_CZ",
     "da": "da_DK", "de": "de_DE", "el": "el_GR", "es": "es_MX", "et": "et_EE",
-    "fa": "fa_IR", "fi": "fi_FI", "fr": "fr_FR", "hi": "hi_IN", "hu": "hu_HU",
-    "is": "is_IS", "it": "it_IT", "ja": "ja_JP", "lt": "lt_LT", "lv": "lv_LV",
-    "nl": "nl_NL", "pl": "pl_PL", "pt": "pt_PT", "ro": "ro_RO", "ru": "ru_RU",
-    "sk": "sk_SK", "sv": "sv_SE", "tr": "tr_TR", "uk": "uk_UA", "zh": "zh_CN",
-    "hr": "hr_HR"
+    "fi": "fi_FI", "fr": "fr_FR", "hu": "hu_HU",
+    "is": "is_IS", "it": "it_IT", "lt": "lt_LT", "lv": "lv_LV",
+    "nl": "nl_NL", "pl": "pl_PL", "pt": "pt_PT", "ro": "ro_RO",
+    "sk": "sk_SK", "sv": "sv_SE", "tr": "tr_TR", "hr": "hr_HR"
 }
 
 def load_wmt_data(language_pair):
@@ -18,7 +17,7 @@ def load_wmt_data(language_pair):
     If "get_languages" is passed, return the list of available language pairs.
     """
     if language_pair == "get_languages":
-        return list(LANGUAGE_CODE_MAP.values())  # Return mapped full region codes
+        return list(LANGUAGE_CODE_MAP.keys())  # Return mapped full region codes
 
     # Ensure language_pair is mapped to full region format if needed
     mapped_lang_pair = LANGUAGE_CODE_MAP.get(language_pair, language_pair)
