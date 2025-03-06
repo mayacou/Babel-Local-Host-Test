@@ -50,7 +50,7 @@ EUROPARL_LANG_PAIRS = {lang: lang for lang in [
     "lv", "lt", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
 ]}
 
-ALL_DATASET = {
+ALL_DATASETS = {
     "WMT": WMT_LANG_PAIRS,
     "TED": TED_LANG_PAIRS,
     "EUROPARL": EUROPARL_LANG_PAIRS

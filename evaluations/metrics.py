@@ -1,4 +1,3 @@
-import nltk
 import sacrebleu
 from comet.models import download_model, load_from_checkpoint
 

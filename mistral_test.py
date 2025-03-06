@@ -4,10 +4,9 @@ from evaluations.metrics import compute_bleu, compute_comet
 from scripts.csv_helpers import write_to_csv
 from models.load_model import load_model_and_tokenizer
 from models.mistral_model.model import perform_inference
-from config.languages import get_dataset_loader, ALL_DATASETS
+from config.languages import ALL_DATASETS
+from scripts.data_loader import load_dataset_by_name
 
-# Define the path for the results CSV file
-RESULTS_CSV = "data/mistral_test_results.csv"
 
 # Logging Setup
 log_dir = "logs"
@@ -19,19 +18,26 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
+# Define the path for the results CSV file
+RESULTS_CSV = "data/mistral_test_results.csv"
+
+
+
 
 def run_test_for_language_pair(src_lang, tgt_lang, dataset_name):
     print(f"Running test for {src_lang} -> {tgt_lang} using {dataset_name} dataset...")
 
+    # Convert to dataset-specific language pair format
+
     # Get dataset loader function dynamically
-    dataset_loader = get_dataset_loader(dataset_name)
+    dataset_loader = load_dataset_by_name(dataset_name, src_lang, tgt_lang)
     if not dataset_loader:
         print(f"⚠️ No dataset loader found for {dataset_name}. Skipping {tgt_lang}.")
         return -1, -1
 
     # Load the data
     try:
-        sources, references = dataset_loader(src_lang, tgt_lang)
+        sources, references = dataset_loader
     except Exception as e:
         print(f"⚠️ Error loading dataset for {src_lang} -> {tgt_lang}: {e}")
         return -1, -1
@@ -64,7 +70,7 @@ def run_test_for_language_pair(src_lang, tgt_lang, dataset_name):
     print(f"COMET Score: {comet_score}")
 
     # Log results to CSV
-    write_to_csv(RESULTS_CSV, "mistral", dataset_name ,tgt_lang, round(bleu_score, 2), round(comet_score, 2))
+    write_to_csv(RESULTS_CSV, "mistral", dataset_name, tgt_lang, round(bleu_score, 2), round(comet_score, 2))
 
     # Free GPU memory
     del model
@@ -75,7 +81,6 @@ def run_test_for_language_pair(src_lang, tgt_lang, dataset_name):
     gc.collect()
 
     return bleu_score, comet_score
-
 def main():
     all_scores = {}
     source_lang = "en"
