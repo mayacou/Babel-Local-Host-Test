@@ -21,8 +21,8 @@ logging.basicConfig(
 )
 
 def run_test_for_language_pair(language_pair):
-    first_language_name = EUROPARL_LANG_PAIRS.get(language_pair[0], "Unknown Language")
-    second_language_name = EUROPARL_LANG_PAIRS.get(language_pair[1], "Unknown Language")
+    first_language_name = language_pair[0]
+    second_language_name = language_pair[1]
 
     print(f"Running test for {first_language_name} -> {second_language_name}...")
 
