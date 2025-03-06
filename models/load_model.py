@@ -1,6 +1,6 @@
 # load_model_and_tokenizer.py
 
-from models.mistral_model import mistral_load  # Make sure this import matches your file structure
+from models.mistral_model.model import mistral_load  
 
 def load_model_and_tokenizer(model_name="mistral-7b"):
     if model_name == "mistral-7b":
