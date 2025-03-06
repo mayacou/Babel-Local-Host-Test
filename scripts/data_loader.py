@@ -1,45 +1,161 @@
-from datasets import load_dataset
+from datasets import load_dataset, get_dataset_config_names
+import random
+from config.languages import WMT_LANG_PAIRS, TED_LANG_PAIRS, EUROPARL_LANG_PAIRS
+
+BATCH_SIZE = 50
 
 def load_opus_data(language_pair):
     """
-    Load a specific language pair from the OPUS dataset.
-    
-    Args:
-    - language_pair (tuple): A tuple containing the two language codes (e.g., ('en', 'it')).
-    
-    Returns:
-    - dataset: Loaded dataset for the specified language pair, or None if not found.
+    Load test data for the given language pair from the OPUS dataset.
     """
     try:
-        # OPUS supports many languages; you can load specific language pairs.
-        dataset = load_dataset("opus100", f"{language_pair[0]}-{language_pair[1]}")
-        return dataset
+        dataset = load_dataset("opus_books", language_pair)
     except ValueError:
-        print(f"Language pair {language_pair[0]}-{language_pair[1]} not found in OPUS.")
-        return None
-    except Exception as e:
-        print(f"An error occurred while loading the OPUS dataset: {e}")
-        return None
+        print(f"⚠️ Skipping {language_pair}: No dataset found.")
+        return [], []
 
+    split = "train" if "train" in dataset else None
+    if not split:
+        print(f"⚠️ Skipping {language_pair}: No usable split found.")
+        return [], []
 
-def load_wmt_data(language_pair, sample_size=150):
-    """
-    Load a sample of the WMT dataset for a specific language pair.
+    test_samples = list(dataset[split])[:BATCH_SIZE]  # Take BATCH_SIZE samples
+    sources = [sample["source"] for sample in test_samples]
+    references = [sample["target"] for sample in test_samples]
     
-    Args:
-    - language_pair (tuple): A tuple containing the two language codes (e.g., ('en', 'de')).
-    - sample_size (int): The number of samples to select from the test data (default is 150).
-    
-    Returns:
-    - test_data: A subset of the test dataset for the specified language pair.
+    return sources, references
+
+def load_wmt_data(language_pair):
     """
+    Load and shuffle test data for the given language pair from the WMT dataset.
+    If "get_languages" is passed, return the list of available language pairs.
+    """
+    if language_pair == "get_languages":
+        return list(WMT_LANG_PAIRS.keys())  # Return mapped full region codes
+
+    # Ensure language_pair is mapped to full region format if needed
+    mapped_lang_pair = WMT_LANG_PAIRS.get(language_pair, language_pair)
+    dataset_name = f"en-{mapped_lang_pair}"  # Adjusted dataset name
+
+    print(f"🔎 Attempting to load dataset: {dataset_name}")  # Debugging output
+
     try:
-        # Load the WMT dataset for a specific language pair
-        dataset = load_dataset("wmt14", f"{language_pair[0]}-{language_pair[1]}")
-        
-        # Select a sample of the test data
-        test_data = dataset['test'].select(range(sample_size)) 
-        return test_data
+        dataset = load_dataset("google/wmt24pp", dataset_name)
+    except ValueError:
+        print(f"❌ Dataset {dataset_name} not found. Skipping...")
+        return [], []
+
+    split = "train" if "train" in dataset and len(dataset["train"]) > 0 else None
+    if not split:
+        print(f"❌ No usable split found for {dataset_name}. Skipping...")
+        return [], []
+
+    test_samples = list(dataset[split])
+
+    if not test_samples:
+        print(f"❌ No test samples found for {dataset_name}. Skipping...")
+        return [], []
+
+    # Shuffle dataset for randomness
+    random.seed(42)  # Ensures reproducibility
+    random.shuffle(test_samples)
+    test_samples = test_samples[:BATCH_SIZE]  # Take BATCH_SIZE shuffled samples
+
+    sources = [sample["source"] for sample in test_samples]
+    references = [sample["target"] for sample in test_samples]
+
+    return sources, references
+
+def load_tedTalk_data(target_lang_code, source_lang="en"):
+    """
+    Load TED Talk dataset for the specified target language.
+    Uses the `davidstap/ted_talks` dataset from Hugging Face.
+    """
+    
+    if target_lang_code == "get_languages":
+        return TED_LANG_PAIRS
+
+    # Define dataset name
+    dataset_name = "davidstap/ted_talks"
+
+    # Get available language pairs (must use trust_remote_code=True)
+    available_configs = get_dataset_config_names(dataset_name, trust_remote_code=True)
+
+    # Check if the requested language pair exists
+    config_name = f"{source_lang}_{target_lang_code}"
+    if config_name not in available_configs:
+        print(f"⚠️ Language pair '{config_name}' not found in TED Talks dataset.")
+        print(f"ℹ️ Available pairs: {', '.join(available_configs[:10])}... (truncated)")
+        return [], []
+
+    print(f"🔎 Loading TED dataset: {dataset_name} ({config_name})")
+
+    # Load dataset with remote code trust
+    dataset = load_dataset(dataset_name, config_name, trust_remote_code=True)
+
+    # Select the appropriate split
+    split = "test" if "test" in dataset else "train"
+    if split not in dataset:
+        print(f"⚠️ No usable split found for {config_name}.")
+        return [], []
+
+    # Shuffle TED Talk data
+    test_samples = list(dataset[split])
+    random.seed(42)
+    random.shuffle(test_samples)
+    test_samples = test_samples[:BATCH_SIZE]  # Limit to BATCH_SIZE test samples
+
+    # Extract source and target translations
+    sources = [sample[source_lang] for sample in test_samples]
+    references = [sample[target_lang_code] for sample in test_samples]
+
+    return sources, references
+
+def load_europarl_data(target_language):
+    try:
+        if target_language == "get_languages":
+            return EUROPARL_LANG_PAIRS
+
+        # Get available language pairs from dataset
+        available_configs = get_dataset_config_names("Helsinki-NLP/europarl")
+
+        # Check for 'en-XX' first, then 'XX-en'
+        forward_pair = f"en-{target_language}"
+        reverse_pair = f"{target_language}-en"
+
+        if forward_pair in available_configs:
+            langpair = forward_pair
+            reverse_mode = False
+        elif reverse_pair in available_configs:
+            langpair = reverse_pair
+            reverse_mode = True
+        else:
+            raise ValueError(f"❌ No dataset found for {target_language} in either direction.")
+
+        print(f"🟢 Loading dataset: {langpair}\n")
+        dataset = load_dataset("Helsinki-NLP/europarl", langpair, split="train", trust_remote_code=True).shuffle(seed=42)
+
+        source_sentences = []
+        reference_sentences = []
+
+        for item in dataset.select(range(BATCH_SIZE)):
+            if "translation" in item:
+                translation = item["translation"]
+
+                # Extract correct language codes
+                src_lang, tgt_lang = langpair.split("-")
+
+                if reverse_mode:
+                    # Swap for XX-en datasets
+                    source_sentences.append(translation[tgt_lang])  # English text
+                    reference_sentences.append(translation[src_lang])  # Target language text
+                else:
+                    # Normal case: en-XX
+                    source_sentences.append(translation[src_lang])  # English text
+                    reference_sentences.append(translation[tgt_lang])  # Target language text
+
+        return source_sentences, reference_sentences
+
     except Exception as e:
-        print(f"An error occurred while loading the WMT dataset: {e}")
-        return None
+        print(f"❌ Error loading dataset for {target_language}: {e}")
+        return [], []

@@ -1,25 +1,18 @@
-# evaluations/metrics.py
-
+import nltk
 import sacrebleu
+from comet.models import download_model, load_from_checkpoint
 
+# Download and load COMET model (for more accurate evaluation)
+COMET_MODEL_PATH = download_model("Unbabel/wmt22-comet-da")
+comet_model = load_from_checkpoint(COMET_MODEL_PATH)
 
-def compute_bleu(generated_translations, reference_translations):
-    bleu = sacrebleu.corpus_bleu(generated_translations, [reference_translations])
+def compute_bleu(references, hypotheses):
+    """Compute BLEU score using SacreBLEU"""
+    bleu = sacrebleu.corpus_bleu(hypotheses, [references])
     return bleu.score
 
-from comet import download_model, load_from_checkpoint
-
-import evaluate
-
-import evaluate
-
-def compute_comet(generated_translations, reference_translations, source_sentences):
-    comet = evaluate.load("comet")
-
-    results = comet.compute(
-        predictions=generated_translations,
-        references=reference_translations,
-        sources=source_sentences
-    )
-
-    return results["mean_score"]
+def compute_comet(references, hypotheses, sources, batch_size = 8):
+    """Compute COMET score for more accurate evaluation"""
+    data = [{"src": src, "mt": hyp, "ref": ref} for src, hyp, ref in zip(sources, hypotheses, references)]
+    comet_scores = comet_model.predict(data, batch_size= batch_size)
+    return sum(comet_scores.scores) / len(comet_scores.scores)  # Average score

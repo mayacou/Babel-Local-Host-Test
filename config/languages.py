@@ -30,33 +30,23 @@ LANGUAGES = {
     'tr': 'Turkish',
 }
 
-OPUS_100_LANGUAGES = {
-    'sq': 'Albanian',  # Albanian
-    'bg': 'Bulgarian',  # Bulgarian
-    'hr': 'Croatian',  # Croatian
-    'cs': 'Czech',  # Czech
-    'da': 'Danish',  # Danish
-    'nl': 'Dutch',  # Dutch
-    'et': 'Estonian',  # Estonian
-    'fi': 'Finnish',  # Finnish
-    'fr': 'French',  # French
-    'de': 'German',  # German
-    'el': 'Greek',  # Greek
-    'hu': 'Hungarian',  # Hungarian
-    'is': 'Icelandic',  # Icelandic
-    'it': 'Italian',  # Italian
-    'lv': 'Latvian',  # Latvian
-    'lt': 'Lithuanian',  # Lithuanian
-    'lb': 'Luxembourgish',  # Luxembourgish
-    'mk': 'Macedonian',  # Macedonian
-    'me': 'Montenegrin',  # Montenegrin
-    'no': 'Norwegian',  # Norwegian
-    'pl': 'Polish',  # Polish
-    'pt': 'Portuguese',  # Portuguese
-    'ro': 'Romanian',  # Romanian
-    'sk': 'Slovak',  # Slovak
-    'sl': 'Slovenian',  # Slovenian
-    'es': 'Spanish',  # Spanish
-    'sv': 'Swedish',  # Swedish
-    'tr': 'Turkish',  # Turkish
+
+WMT_LANG_PAIRS = {
+    "bg": "bg_BG", "cs": "cs_CZ",
+    "da": "da_DK", "de": "de_DE", "el": "el_GR", "es": "es_MX", "et": "et_EE",
+    "fi": "fi_FI", "fr": "fr_FR", "hu": "hu_HU",
+    "is": "is_IS", "it": "it_IT", "lt": "lt_LT", "lv": "lv_LV",
+    "nl": "nl_NL", "pl": "pl_PL", "pt": "pt_PT", "ro": "ro_RO",
+    "sk": "sk_SK", "sv": "sv_SE", "tr": "tr_TR", "hr": "hr_HR"
 }
+
+TED_LANG_PAIRS = [
+    "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hr", "hu", "is", "it",
+    "lv", "lt", "mk", "pl", "pt", "ro", "sk", "sl", "sq", "es", "sv", "tr"
+]
+
+EUROPARL_LANG_PAIRS = [
+    "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "it",
+    "lv", "lt", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
+]
+
