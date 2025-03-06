@@ -1,6 +1,5 @@
 import logging
 import os
-from transformers import MistralForConditionalGeneration, MistralTokenizer
 from evaluations.metrics import compute_bleu, compute_comet
 from scripts.data_loader import load_europarl_data
 from scripts.csv_helpers import write_to_csv
