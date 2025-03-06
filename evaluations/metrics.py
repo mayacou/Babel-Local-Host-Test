@@ -11,7 +11,15 @@ from comet import download_model, load_from_checkpoint
 
 import evaluate
 
-def compute_comet(generated_translations, reference_translations):
+import evaluate
+
+def compute_comet(generated_translations, reference_translations, source_sentences):
     comet = evaluate.load("comet")
-    results = comet.compute(predictions=generated_translations, references=reference_translations)
+
+    results = comet.compute(
+        predictions=generated_translations,
+        references=reference_translations,
+        sources=source_sentences
+    )
+
     return results["mean_score"]
