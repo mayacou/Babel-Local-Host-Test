@@ -1,13 +1,12 @@
+# pytest -v -s tests/test_NLLB.py
+
 import os
-import sys
-# Get the absolute path of the project root and add it to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import csv
 import pytest
 from helpers.evaluation import compute_bleu, compute_comet
 from models.load_NLLB import load_model, translate_text
 from datasets_loader.load_europarl import load_europarl_data
-from datasets_loader.load_ted import load_ted_data
+from datasets_loader.load_tedTalk import load_tedTalk_data
 from datasets_loader.load_wmt import load_wmt_data
 
 # Define output CSV file
@@ -25,21 +24,15 @@ LANGUAGE_CODE_MAP = {
     "no": "nob_Latn"
 }
 
-print("You got past the initial imports!") #Debug 1
-
 # Load model and tokenizer
 model, tokenizer = load_model()
-
-print("You got past loading the model!") #Debug 2
 
 # Datasets and their loaders
 DATASETS = {
     "Europarl": load_europarl_data,
-    "TED": load_ted_data,
+    "TED": load_tedTalk_data,
     "WMT": load_wmt_data,
 }
-
-print("You got past loading the datasets!") #Debug 3
 
 def write_to_csv(dataset, language, bleu, comet):
     """Append a row to the results CSV file."""
