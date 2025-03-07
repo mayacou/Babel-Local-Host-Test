@@ -4,7 +4,7 @@ from datasets import load_dataset
 # Mapping of available WMT24PP language pairs (full locale names, change es_MX to es-ES if it exists)
 LANGUAGE_CODE_MAP = {
     "bg": "bg_BG", "cs": "cs_CZ",
-    "da": "da_DK", "de": "de_DE", "el": "el_GR", "es": "es_MX", "et": "et_EE",
+    "da": "da_DK", "de": "de_DE", "el": "el_GR", "es": "es_ES", "et": "et_EE",
     "fi": "fi_FI", "fr": "fr_FR", "hu": "hu_HU",
     "is": "is_IS", "it": "it_IT", "lt": "lt_LT", "lv": "lv_LV",
     "nl": "nl_NL", "pl": "pl_PL", "pt": "pt_PT", "ro": "ro_RO",

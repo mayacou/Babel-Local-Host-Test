@@ -2,10 +2,11 @@ import random
 from datasets import load_dataset, get_dataset_config_names
 
 
-TED_LANG_PAIRS = [
-    "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hr", "hu", "is", "it",
-    "lv", "lt", "mk", "pl", "pt", "ro", "sk", "sl", "sq", "es", "sv", "tr"
+TED_LANG_PAIRS = [ 
+    "sq", "bg", "hr", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "is", "it", 
+    "lv", "lt", "mk", "nb", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
 ]
+
 
 # Function to load TED Talk dataset
 def load_tedTalk_data(target_lang_code, source_lang="en"):
