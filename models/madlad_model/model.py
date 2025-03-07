@@ -1,23 +1,26 @@
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from models.madlad_model.config import MODEL_NAME, ATTN_IMPLEMENTATION, DEVICE_MAP, TORCH_DTYPE
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from models.madlad_model.config import MODEL_NAME, TOKENIZER_NAME, DEVICE_MAP, TORCH_DTYPE, PAD_TOKEN
 
+def madlad_load():
+    """
+    Load the MADLAD model and tokenizer.
 
-def madlad_load(model_name=MODEL_NAME, 
-                attn_implementation=ATTN_IMPLEMENTATION, 
-                device_map=DEVICE_MAP,
-                torch_dtype=TORCH_DTYPE):
+    Returns:
+        model: Loaded MADLAD model.
+        tokenizer: Loaded tokenizer.
+    """
     # Load the tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
-    
-    # Load the model with the correct class for seq2seq models
-    model = AutoModelForSeq2SeqLM.from_pretrained(
-        model_name,
-        torch_dtype=torch_dtype,
-        device_map=device_map,
-        attn_implementation=attn_implementation
-    )
-    
-    return model, tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME)
 
+    # Ensure the tokenizer has a padding token
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = PAD_TOKEN if PAD_TOKEN else tokenizer.eos_token
+
+    # Load the model
+    model = AutoModelForSeq2SeqLM.from_pretrained(
+        MODEL_NAME,
+        torch_dtype=TORCH_DTYPE,
+        device_map=DEVICE_MAP
+    )
+
+    return model, tokenizer
