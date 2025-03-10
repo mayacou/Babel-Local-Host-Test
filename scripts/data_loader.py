@@ -1,8 +1,7 @@
 from datasets import load_dataset, get_dataset_config_names
 import random
-from config.languages import WMT_LANG_PAIRS, TED_LANG_PAIRS, EUROPARL_LANG_PAIRS
-
-BATCH_SIZE = 10
+from config.languages import WMT_LANG_PAIRS
+BATCH_SIZE = 30
 
 def load_dataset_by_name(dataset_name, src_lang, trg_lang):
     """
@@ -131,9 +130,7 @@ def load_tedTalk_data(src_lang, trg_lang):
 
 def load_europarl_data(src_lang, trg_lang):
     try:
-        if src_lang == "get_languages":
-            return EUROPARL_LANG_PAIRS
-
+       
         # Get available language pairs from dataset
         available_configs = get_dataset_config_names("Helsinki-NLP/europarl")
 

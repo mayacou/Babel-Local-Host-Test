@@ -49,9 +49,14 @@ EUROPARL_LANG_PAIRS = {lang: lang for lang in [
     "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "it",
     "lv", "lt", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
 ]}
+OPUS_LANG_PAIRS = {lang: lang for lang in [
+    "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "it",
+    "lv", "lt", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
+]}
 
 ALL_DATASETS = {
     "WMT": WMT_LANG_PAIRS,
     "TED": TED_LANG_PAIRS,
-    "EUROPARL": EUROPARL_LANG_PAIRS
+    "EUROPARL": EUROPARL_LANG_PAIRS,
+    "OPUS" : OPUS_LANG_PAIRS
 }

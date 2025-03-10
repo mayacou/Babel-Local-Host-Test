@@ -4,7 +4,7 @@ import argparse
 from evaluations.metrics import compute_bleu, compute_comet
 from scripts.csv_helpers import write_to_csv
 from models.load_model import load_model_and_tokenizer
-from models.perform_inference import inference_router
+from models.perform_inference import perform_inference
 from config.languages import ALL_DATASETS
 from scripts.data_loader import load_dataset_by_name
 import torch
@@ -43,7 +43,7 @@ def run_test_for_language_pair(model_name, model, tokenizer, src_lang, tgt_lang,
 
     # Perform inference
     try:
-        hypotheses, _ = inference_router(sources, model_name, model, tokenizer)
+        hypotheses, _ = perform_inference(sources, model_name, model, tokenizer)
     except Exception as e:
         print(f"⚠️ Error during inference for {tgt_lang}: {e}")
         return -1, -1
@@ -66,7 +66,7 @@ def main():
     args = parser.parse_args()
 
     model_name = args.model
-    results_csv = f"data/{model_name}_test_results.csv"  # Dynamically set results file
+    results_csv = f"data/test_results.csv" 
 
     # Load the model and tokenizer once
     try:

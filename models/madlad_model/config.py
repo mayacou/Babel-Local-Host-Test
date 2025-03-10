@@ -12,7 +12,7 @@ PAD_TOKEN = "<pad>"  # Padding token (if not already set in the tokenizer)
 MAX_LENGTH = 512  # Maximum sequence length for tokenization
 
 # Inference Configuration
-MAX_GENERATION_LENGTH = 100  # Maximum length for generated translations
+# MAX_GENERATION_LENGTH = 60 # Maximum length for generated translations
 BEAM_SIZE = 5  # Beam size for beam search
 TEMPERATURE = 1.0  # Sampling temperature
 TOP_K = 50  # Top-k sampling

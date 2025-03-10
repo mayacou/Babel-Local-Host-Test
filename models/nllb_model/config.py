@@ -1,0 +1,1 @@
+MODEL_NAME = "facebook/nllb-200-distilled-600M"
