@@ -54,3 +54,14 @@ m2m,TED,Polish,0.2,0.64
 m2m,TED,Portuguese,4.69,0.66
 m2m,TED,Romanian,0.39,0.66
 m2m,TED,Slovak,0.45,0.62
+nllb,WMT,Bulgarian,2.17,0.56
+nllb,WMT,Czech,2.13,0.61
+nllb,WMT,Danish,0.9,0.61
+nllb,WMT,German,1.79,0.56
+nllb,WMT,Greek,1.77,0.61
+nllb,WMT,Spanish,6.06,0.65
+nllb,WMT,Estonian,2.04,0.61
+nllb,WMT,Finnish,2.13,0.63
+nllb,WMT,French,2.14,0.61
+nllb,WMT,Hungarian,1.75,0.61
+nllb,WMT,Icelandic,1.71,0.55
