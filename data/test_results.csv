@@ -65,3 +65,114 @@ nllb,WMT,Finnish,2.13,0.63
 nllb,WMT,French,2.14,0.61
 nllb,WMT,Hungarian,1.75,0.61
 nllb,WMT,Icelandic,1.71,0.55
+tower instruct,WMT,Bulgarian,0.0,0.34
+tower instruct,WMT,Bulgarian,1.58,0.45
+tower instruct,WMT,Czech,1.7,0.5
+tower instruct,WMT,Danish,0.3,0.57
+tower instruct,WMT,German,1.67,0.48
+tower instruct,WMT,Greek,1.52,0.47
+tower instruct,WMT,Spanish,0.25,0.59
+tower instruct,WMT,Estonian,1.59,0.48
+tower instruct,WMT,Finnish,1.61,0.55
+tower instruct,WMT,French,1.71,0.54
+tower instruct,WMT,Hungarian,1.7,0.49
+tower instruct,WMT,Icelandic,1.46,0.47
+tower instruct,WMT,Italian,1.6,0.56
+tower instruct,WMT,Lithuanian,1.59,0.5
+tower instruct,WMT,Latvian,1.68,0.46
+tower instruct,WMT,Dutch,1.62,0.53
+tower instruct,WMT,Polish,1.72,0.52
+tower instruct,WMT,Portuguese,1.72,0.58
+tower instruct,WMT,Romanian,0.25,0.51
+tower instruct,WMT,Slovak,1.74,0.48
+tower instruct,WMT,Swedish,0.28,0.57
+tower instruct,WMT,Turkish,0.24,0.49
+tower instruct,WMT,Croatian,1.6,0.5
+tower instruct,TED,Bulgarian,0.29,0.4
+tower instruct,TED,Czech,0.33,0.46
+tower instruct,TED,Danish,0.37,0.56
+tower instruct,TED,Dutch,0.86,0.5
+tower instruct,TED,Estonian,0.34,0.43
+tower instruct,TED,Finnish,0.21,0.42
+tower instruct,TED,French,0.32,0.5
+tower instruct,TED,German,0.66,0.42
+tower instruct,TED,Greek,0.17,0.43
+tower instruct,TED,Croatian,0.55,0.45
+tower instruct,TED,Hungarian,0.72,0.45
+tower instruct,TED,Italian,0.48,0.51
+tower instruct,TED,Lithuanian,0.18,0.45
+tower instruct,TED,Macedonian,0.6,0.35
+tower instruct,TED,Polish,0.2,0.42
+tower instruct,TED,Portuguese,0.95,0.56
+tower instruct,TED,Romanian,0.67,0.48
+tower instruct,TED,Slovak,0.3,0.47
+tower instruct,TED,Slovenian,0.21,0.45
+tower instruct,TED,Albanian,0.67,0.43
+tower instruct,TED,Spanish,0.43,0.56
+tower instruct,TED,Swedish,2.42,0.55
+tower instruct,TED,Turkish,0.28,0.41
+tower instruct,EUROPARL,Bulgarian,0.37,0.44
+tower instruct,EUROPARL,Czech,1.06,0.45
+tower instruct,EUROPARL,Danish,5.13,0.59
+tower instruct,EUROPARL,Dutch,0.29,0.47
+tower instruct,EUROPARL,Estonian,0.43,0.46
+tower instruct,EUROPARL,Finnish,1.76,0.5
+tower instruct,EUROPARL,French,0.47,0.53
+tower instruct,EUROPARL,German,0.25,0.43
+tower instruct,EUROPARL,Greek,0.34,0.44
+tower instruct,EUROPARL,Hungarian,0.16,0.47
+tower instruct,EUROPARL,Italian,0.15,0.54
+tower instruct,EUROPARL,Latvian,0.17,0.43
+tower instruct,EUROPARL,Lithuanian,0.15,0.45
+tower instruct,EUROPARL,Polish,0.15,0.48
+tower instruct,EUROPARL,Portuguese,0.26,0.57
+tower instruct,EUROPARL,Romanian,0.33,0.48
+tower instruct,EUROPARL,Slovak,0.15,0.44
+tower instruct,EUROPARL,Slovenian,0.28,0.49
+tower instruct,EUROPARL,Spanish,1.05,0.52
+tower instruct,EUROPARL,Swedish,0.14,0.53
+nllb,WMT,Bulgarian,2.03,0.55
+nllb,WMT,Czech,2.32,0.62
+nllb,WMT,Danish,0.49,0.62
+nllb,WMT,German,1.97,0.56
+nllb,WMT,Greek,2.09,0.6
+nllb,WMT,Spanish,3.85,0.64
+nllb,WMT,Estonian,2.43,0.6
+nllb,WMT,Finnish,2.7,0.61
+nllb,WMT,French,2.42,0.59
+nllb,WMT,Hungarian,2.17,0.57
+nllb,WMT,Icelandic,1.72,0.54
+nllb,WMT,Italian,5.87,0.66
+nllb,WMT,Lithuanian,2.56,0.62
+nllb,WMT,Latvian,2.34,0.6
+nllb,WMT,Dutch,2.71,0.64
+nllb,WMT,Polish,2.1,0.62
+nllb,WMT,Portuguese,3.66,0.65
+nllb,WMT,Romanian,0.61,0.63
+nllb,WMT,Slovak,2.42,0.57
+nllb,WMT,Swedish,0.53,0.63
+nllb,WMT,Turkish,0.59,0.57
+nllb,WMT,Croatian,2.4,0.6
+nllb,TED,Bulgarian,4.04,0.6
+nllb,TED,Czech,0.64,0.67
+nllb,TED,Danish,0.31,0.65
+nllb,TED,Dutch,1.17,0.66
+nllb,TED,Estonian,0.69,0.71
+nllb,TED,Finnish,0.5,0.65
+nllb,TED,French,5.65,0.67
+nllb,TED,German,0.59,0.6
+nllb,TED,Greek,6.53,0.7
+nllb,TED,Croatian,1.1,0.68
+nllb,TED,Hungarian,1.01,0.66
+nllb,TED,Italian,1.0,0.71
+nllb,TED,Lithuanian,0.36,0.7
+nllb,TED,Macedonian,1.43,0.63
+nllb,TED,Polish,0.37,0.64
+nllb,TED,Portuguese,5.22,0.72
+nllb,TED,Romanian,0.38,0.71
+nllb,TED,Slovak,0.65,0.69
+nllb,TED,Slovenian,0.38,0.63
+nllb,TED,Albanian,0.82,0.69
+nllb,TED,Spanish,26.48,0.79
+nllb,TED,Swedish,3.94,0.7
+nllb,TED,Turkish,0.29,0.61
