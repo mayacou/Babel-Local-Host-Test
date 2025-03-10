@@ -42,7 +42,7 @@ def translate_text(model, tokenizer, text):
         print("❌ Model or tokenizer is not loaded.")
         return ""
     
-    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
     translated = model.generate(
         **inputs,
         # max_length=max_length,

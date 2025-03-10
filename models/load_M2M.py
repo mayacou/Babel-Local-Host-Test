@@ -23,7 +23,7 @@ def load_model():
 def translate_text(model, tokenizer, text, src_lang="en", tgt_lang="es"):
     """Translate text using M2M-100 model."""
     tokenizer.src_lang = src_lang
-    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
     forced_bos_token_id = tokenizer.convert_tokens_to_ids(f"<<{tgt_lang}>>")  # Changed for M2M-100
     outputs = model.generate(
         **inputs,

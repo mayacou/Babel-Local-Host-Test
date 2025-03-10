@@ -1,8 +1,6 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
-#device = torch_directml.device(torch_directml.default_device())
-
 def load_model():
     """Load the NLLB-200 model and tokenizer with GPU support."""
     model_name = "facebook/nllb-200-distilled-600M"
@@ -25,7 +23,7 @@ def load_model():
 def translate_text(model, tokenizer, text, src_lang="eng_Latn", tgt_lang="spa_Latn"):
     """Translate text using NLLB-200 model."""
     tokenizer.src_lang = src_lang
-    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)#.to(device)
+    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
     forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
     outputs = model.generate(
         **inputs,

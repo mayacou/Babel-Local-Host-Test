@@ -13,7 +13,7 @@ def load_model(model_name):
 
 def translate_text(model, tokenizer, text):
    """Translate text using the specified model."""
-   inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
+   inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
    translated = model.generate(
       **inputs,
       # max_length=max_length,
