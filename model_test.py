@@ -43,7 +43,7 @@ def run_test_for_language_pair(model_name, model, tokenizer, src_lang, tgt_lang,
 
     # Perform inference
     try:
-        hypotheses, _ = perform_inference(sources, model_name, model, tokenizer)
+        hypotheses, _ = perform_inference(sources, model_name, model, tokenizer, target_language=tgt_lang)
     except Exception as e:
         print(f"⚠️ Error during inference for {tgt_lang}: {e}")
         return -1, -1
