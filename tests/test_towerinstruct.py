@@ -1,15 +1,15 @@
-import csv
+import csv 
 from models.load_towerinstruct import load_towerinstruct, translate_text
 from helpers.evaluation import compute_bleu, compute_comet
 from datasets_loader.load_wmt import load_wmt_data
-from datasets_loader.load_ted import load_ted_data
+from datasets_loader.load_tedTalk import load_tedTalk_data
 from datasets_loader.load_opus import load_opus_data
 from datasets_loader.load_europarl import load_europarl_data
 
 # Datasets to test
 DATASETS = {
     "WMT": load_wmt_data,
-    "TED": load_ted_data,
+    "TED": load_tedTalk_data,
     #"OPUS": load_opus_data,
     "Europarl": load_europarl_data
 }
@@ -20,11 +20,15 @@ for model_version in [7, 13]:
     model, tokenizer = load_towerinstruct(model_version)
     print(f"✅ {model_name} loaded successfully!")
     
-    # Open separate CSV file for each model version
-    csv_filename = f"towerinstruct_{model_version}b_results.csv"
-    with open(csv_filename, mode="w", newline="") as file:
+    # Open separate CSV files for results and translations
+    csv_filename = f"data/towerinstruct_{model_version}b_results.csv"
+    translations_csv_filename = f"translation_results/towerinstruct_{model_version}b_translations.csv"
+    
+    with open(csv_filename, mode="w", newline="") as file, open(translations_csv_filename, mode="w", newline="") as trans_file:
         writer = csv.writer(file)
+        trans_writer = csv.writer(trans_file)
         writer.writerow(["Dataset", "Language", "BLEU", "COMET"])
+        trans_writer.writerow(["Dataset", "Language", "Source Sentence", "Translation", "Reference Sentence"])
 
         for dataset_name, dataset_loader in DATASETS.items():
             print(f"🔹 Testing {model_name} on {dataset_name}")
@@ -49,6 +53,8 @@ for model_version in [7, 13]:
                     translation = translate_text(model, tokenizer, src)
                     translations.append(translation)
                     print(f"✅ Translated: {translation[:50]}")
+                    trans_writer.writerow([dataset_name, lang_pair, src, translation, references[i]])
+                    trans_file.flush()
                 
                 # Compute metrics
                 bleu = compute_bleu(references, translations)
@@ -58,5 +64,6 @@ for model_version in [7, 13]:
                 # Save to CSV
                 writer.writerow([dataset_name, lang_pair, round(bleu, 2), round(comet, 2)])
                 print(f"✅ Saved results for {model_name} on {dataset_name} ({lang_pair})")
+
 
 

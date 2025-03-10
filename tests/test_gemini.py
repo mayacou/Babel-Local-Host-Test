@@ -19,11 +19,17 @@ print("🔄 Loading Gemini model...")
 model = load_gemini()
 print("✅ Gemini model loaded successfully!")
 
-# Open CSV file to store results
-csv_filename = "gemini_results.csv"
+# Open CSV files to store results
+csv_filename = "data/gemini_results.csv"
+translations_csv_filename = "translation_results/gemini_translations.csv"
+
 with open(csv_filename, mode="w", newline="") as file:
     writer = csv.writer(file)
     writer.writerow(["Dataset", "Language", "BLEU", "COMET"])
+
+with open(translations_csv_filename, mode="w", newline="") as trans_file:
+    trans_writer = csv.writer(trans_file)
+    trans_writer.writerow(["Dataset", "Language", "Source Sentence", "Translation", "Reference Sentence"])
 
     for dataset_name, dataset_loader in DATASETS.items():
         print(f"🔹 Testing Gemini on {dataset_name}")
@@ -48,6 +54,8 @@ with open(csv_filename, mode="w", newline="") as file:
                 prompt = f"Translate this sentence to {lang_pair.split('-')[-1]}: {src}"
                 translation = translate_text(model, prompt)
                 translations.append(translation)
+                trans_writer.writerow([dataset_name, lang_pair, src, translation, references[i]])
+                trans_file.flush()
             
             # Compute metrics
             bleu = compute_bleu(references, translations)
@@ -57,4 +65,5 @@ with open(csv_filename, mode="w", newline="") as file:
             # Save to CSV
             writer.writerow([dataset_name, lang_pair, round(bleu, 2), round(comet, 2)])
             print(f"✅ Saved results for Gemini on {dataset_name} ({lang_pair})")
+
 

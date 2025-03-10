@@ -7,8 +7,9 @@ from datasets_loader.load_europarl import load_europarl_data
 from datasets_loader.load_tedTalk import load_tedTalk_data
 from datasets_loader.load_wmt import load_wmt_data
 
-# Define output CSV file
-RESULTS_CSV = "translation_results/M2M100_test_results.csv"  # Changed from NLLB200
+# Define output CSV files
+RESULTS_CSV = "data/M2M100_test_results.csv"
+TRANSLATIONS_CSV = "translation_results/M2M100_translations.csv"
 
 # Ensure output directory exists
 os.makedirs("translation_results", exist_ok=True)
@@ -20,7 +21,7 @@ LANGUAGE_CODE_MAP = {
     "ro": "ro", "sk": "sk", "sl": "sl", "es": "es", "sv": "sv", 
     "tr": "tr", "hr": "hr", "is": "is", "mk": "mk", "sq": "sq", 
     "no": "no"
-}  # Updated codes for M2M-100 format
+}  
 
 # Load model and tokenizer
 model, tokenizer = load_model()
@@ -41,6 +42,16 @@ def write_to_csv(dataset, language, bleu, comet):
             writer.writerow(["Dataset", "Language", "BLEU", "COMET"])
         writer.writerow([dataset, language, bleu, comet])
 
+def write_translations_to_csv(dataset, language, sources, hypotheses, references):
+    """Append source sentences, translations, and references to a separate CSV file."""
+    file_exists = os.path.isfile(TRANSLATIONS_CSV)
+    with open(TRANSLATIONS_CSV, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            writer.writerow(["Dataset", "Language", "Source Sentence", "Translation", "Reference Sentence"])
+        for source, hypothesis, reference in zip(sources, hypotheses, references):
+            writer.writerow([dataset, language, source, hypothesis, reference])
+
 @pytest.mark.parametrize("dataset_name", DATASETS.keys())
 def test_translation_quality(dataset_name):
     """Test M2M-100 translations and log results."""
@@ -55,8 +66,7 @@ def test_translation_quality(dataset_name):
             print(f"⚠️ Skipping {language}: No mapping found for M2M-100.")
             continue
 
-        m2m_language_code = LANGUAGE_CODE_MAP[language]  # Convert dataset code to M2M-100 format
-
+        m2m_language_code = LANGUAGE_CODE_MAP[language]  
         print(f"Processing {language} ({m2m_language_code}) in {dataset_name}")
         
         sources, references = dataset_loader(language)
@@ -73,4 +83,6 @@ def test_translation_quality(dataset_name):
         
         # Save results
         write_to_csv(dataset_name, language, round(bleu_score, 2), round(comet_score, 2))
+        write_translations_to_csv(dataset_name, language, sources, hypotheses, references)
+        
         print(f"✅ {dataset_name} | {language} ({m2m_language_code}) -> BLEU: {bleu_score}, COMET: {comet_score}")

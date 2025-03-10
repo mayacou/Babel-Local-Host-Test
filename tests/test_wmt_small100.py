@@ -9,6 +9,7 @@ from helpers.evaluation import compute_bleu, compute_comet  # Ensure helpers are
 
 # Define the path for the results CSV file
 RESULTS_CSV = "data/small100_test_results.csv"
+TRANSLATIONS_CSV = "translation_results/small100_translations.csv"
 
 # Ensure the data/ directory exists
 os.makedirs("data", exist_ok=True)
@@ -26,12 +27,21 @@ LANGUAGES_TO_TEST = {
 def write_to_csv(model, language, bleu, comet):
     """Append a row to the CSV file."""
     file_exists = os.path.isfile(RESULTS_CSV)
-
     with open(RESULTS_CSV, mode='a', newline='') as file:
         writer = csv.writer(file)
         if not file_exists:
-            writer.writerow(["Model", "Language", "Bleu", "Comet"])  # Write header if file does not exist
+            writer.writerow(["Model", "Language", "Bleu", "Comet"])
         writer.writerow([model, language, bleu, comet])
+
+def write_translations_to_csv(model, language, sources, hypotheses, references):
+    """Append source sentences, translations, and references to a separate CSV file."""
+    file_exists = os.path.isfile(TRANSLATIONS_CSV)
+    with open(TRANSLATIONS_CSV, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            writer.writerow(["Model", "Language", "Source Sentence", "Translation", "Reference Sentence"])
+        for source, hypothesis, reference in zip(sources, hypotheses, references):
+            writer.writerow([model, language, source, hypothesis, reference])
 
 @pytest.mark.parametrize("target_lang_code", LANGUAGES_TO_TEST.keys())
 def test_translation_quality(target_lang_code, request):
@@ -69,6 +79,8 @@ def test_translation_quality(target_lang_code, request):
     })
 
     write_to_csv("alirezamsh/small100", target_lang_code, round(bleu_score, 2), round(comet_score, 2))
+    write_translations_to_csv("alirezamsh/small100", target_lang_code, sources, hypotheses, references)
 
     assert bleu_score > 10, "BLEU score is too low!"
     assert comet_score > 0.5, "COMET score is too low!"
+

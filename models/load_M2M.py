@@ -17,8 +17,8 @@ def translate_text(model, tokenizer, text, src_lang="en", tgt_lang="es"):
     forced_bos_token_id = tokenizer.convert_tokens_to_ids(f"<<{tgt_lang}>>")  # Changed for M2M-100
     outputs = model.generate(
         **inputs,
-        max_length=max_length,
-        max_new_tokens=max_new_tokens,
+        # max_length=max_length,
+        # max_new_tokens=max_new_tokens,
         num_beams=5,  # Encourages more complete translations
         length_penalty=1.2,  # Prevents overly short translations
         early_stopping=False,

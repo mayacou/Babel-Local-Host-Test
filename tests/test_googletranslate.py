@@ -16,6 +16,9 @@ DATASETS = {
    "Europarl": load_europarl_data
 }
 
+RESULTS_CSV = "data/GoogleCloud_test_results.csv"
+TRANSLATIONS_CSV = "translation_results/GoogleCloud_translations.csv"
+
 def translate(source_sentences, target_language, reference_sentences):
    res = []
    for sentence in source_sentences:
@@ -23,20 +26,28 @@ def translate(source_sentences, target_language, reference_sentences):
       res.append(result["translatedText"])
    bleu = compute_bleu(reference_sentences, res)
    comet = compute_comet(reference_sentences, res, source_sentences)
-   return bleu, comet
+   return res, bleu, comet
         
-csv_filename = "GoogleCloud_test_results.csv"
-with open(csv_filename, mode="w", newline="") as file:
+with open(RESULTS_CSV, mode="w", newline="") as file:
    writer = csv.writer(file)
    writer.writerow(["Dataset", "Language", "BLEU", "COMET"])
+
+with open(TRANSLATIONS_CSV, mode="w", newline="") as trans_file:
+   trans_writer = csv.writer(trans_file)
+   trans_writer.writerow(["Dataset", "Language", "Source Sentence", "Translation", "Reference Sentence"])
+
    for dataset_name, dataset_loader in DATASETS.items():
       try:
          language_pairs = dataset_loader("get_languages")
          for language in language_pairs:
             source_sentences, reference_sentences = dataset_loader(language)
-            bleu, comet = translate(source_sentences, language, reference_sentences)
+            translations, bleu, comet = translate(source_sentences, language, reference_sentences)
             writer.writerow([dataset_name, language, round(bleu, 2), round(comet, 2)])
             file.flush()
+            
+            for source, translation, reference in zip(source_sentences, translations, reference_sentences):
+               trans_writer.writerow([dataset_name, language, source, translation, reference])
+            trans_file.flush()
       except Exception as e:
          print(f"⚠️ Skipping {dataset_name} for {language}: {e}")
          writer.writerow([dataset_name, language, "Skipped", "Skipped"])

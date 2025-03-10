@@ -46,7 +46,7 @@ def load_tedTalk_data(target_lang_code, source_lang="en"):
     test_samples = list(dataset[split])
     random.seed(42)
     random.shuffle(test_samples)
-    test_samples = test_samples[:1]  # Limit to 5 test samples
+    test_samples = test_samples[:20]  # Limit to 5 test samples
 
     # Extract source and target translations
     sources = [sample[source_lang] for sample in test_samples]
