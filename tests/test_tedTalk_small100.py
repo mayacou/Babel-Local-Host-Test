@@ -2,6 +2,7 @@ import os
 import csv
 import pytest
 import random
+import torch
 from datasets_loader.load_tedTalk import load_tedTalk_data  # Import the updated function
 from transformers import M2M100ForConditionalGeneration
 from helpers.tokenization_small100 import SMALL100Tokenizer
@@ -20,6 +21,14 @@ LANGUAGES_TO_TEST = [
     "hu", "is", "it", "lv", "lt", "mk", "pl", "pt", "ro", "sk", "sl",
     "es", "sv", "tr"
 ]
+
+# ✅ Use CUDA if available, otherwise default to CPU
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if device.type == "cuda":
+    print(f"🚀 Using NVIDIA GPU: {torch.cuda.get_device_name(0)}")
+else:
+    print("⚠️ No NVIDIA GPU detected, using CPU instead.")
+
 
 def write_to_csv(model, language, bleu, comet):
     """Append a row to the CSV file."""
@@ -46,7 +55,7 @@ def test_translation_quality(target_lang_code, request):
     print(f"🛠️ Loading Small100 model for {target_lang_code}...")
 
     # ✅ Load Small100 model
-    model = M2M100ForConditionalGeneration.from_pretrained("alirezamsh/small100")
+    model = M2M100ForConditionalGeneration.from_pretrained("alirezamsh/small100").to(device)
     tokenizer = SMALL100Tokenizer.from_pretrained("alirezamsh/small100", tgt_lang=target_lang_code)
 
     # ✅ Load TED dataset using `en` as the source language
@@ -60,7 +69,7 @@ def test_translation_quality(target_lang_code, request):
     hypotheses = []
     for sentence in sources:
         model_inputs = tokenizer(sentence, return_tensors="pt")
-        output_tokens = model.generate(**model_inputs, num_beams=5, max_length=256)
+        output_tokens = model.generate(**model_inputs, num_beams=10, max_length=256, early_stopping = True)
         hypothesis = tokenizer.batch_decode(output_tokens, skip_special_tokens=True)[0]
         hypotheses.append(hypothesis)
 

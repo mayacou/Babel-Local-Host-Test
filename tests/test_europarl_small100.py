@@ -1,17 +1,17 @@
 import os
 import csv
 import pytest
-import random
-from datasets_loader.load_europarl import load_europarl_data  # Import the function from load_europarl.py
+import torch
+from datasets_loader.load_europarl import load_europarl_data  # Import function from load_europarl.py
 from transformers import M2M100ForConditionalGeneration
 from helpers.tokenization_small100 import SMALL100Tokenizer
 from helpers.evaluation import compute_bleu, compute_comet  # Ensure helpers are correct
 
-# Define the path for the results CSV file
+# Define paths for results
 RESULTS_CSV = "data/europarl_test_results.csv"
 TRANSLATIONS_CSV = "translation_results/europarl_small100_translations.csv"
 
-# Ensure the data/ directory exists
+# Ensure directories exist
 os.makedirs("data", exist_ok=True)
 
 # List of target languages to test (Europarl-supported languages)
@@ -19,6 +19,13 @@ EUROPARL_LANGUAGES_TO_TEST = [
     "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu",
     "it", "lv", "lt", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
 ]
+
+# ✅ Use CUDA if available, otherwise default to CPU
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if device.type == "cuda":
+    print(f"🚀 Using NVIDIA GPU: {torch.cuda.get_device_name(0)}")
+else:
+    print("⚠️ No NVIDIA GPU detected, using CPU instead.")
 
 def write_to_csv(model, language, bleu, comet):
     """Append a row to the results CSV file."""
@@ -46,8 +53,8 @@ def test_translation_quality(target_lang_code):
     """Test Small100 translations using Europarl data (en → target) and log results in CSV."""
     print(f"🛠️ Loading Small100 model for {target_lang_code}...")
 
-    # ✅ Use Small100 Model & Tokenizer
-    model = M2M100ForConditionalGeneration.from_pretrained("alirezamsh/small100")
+    # ✅ Load model and tokenizer on GPU (if available)
+    model = M2M100ForConditionalGeneration.from_pretrained("alirezamsh/small100").to(device)
     tokenizer = SMALL100Tokenizer.from_pretrained("alirezamsh/small100", tgt_lang=target_lang_code)
 
     # Load test data (ensuring en → target_lang_code)
@@ -64,8 +71,16 @@ def test_translation_quality(target_lang_code):
 
     hypotheses = []
     for sentence in sources:
-        model_inputs = tokenizer(sentence.strip(), return_tensors="pt", padding=True, truncation=True, max_length=256)
-        output_tokens = model.generate(**model_inputs, num_beams=10, max_length=256, early_stopping=True)
+        model_inputs = tokenizer(sentence.strip(), return_tensors="pt", padding=True, truncation=True, max_length=256).to(device)
+        
+        with torch.no_grad():  # ✅ Disable gradient computation for efficiency
+            output_tokens = model.generate(
+                **model_inputs, 
+                num_beams=10, 
+                max_length=256, 
+                early_stopping=True
+            )
+
         hypothesis = tokenizer.batch_decode(output_tokens, skip_special_tokens=True)[0].strip().lower()
         hypotheses.append(hypothesis)
 
@@ -84,5 +99,3 @@ def test_translation_quality(target_lang_code):
 
     assert bleu_score > 5, f"BLEU score is too low! ({bleu_score})"
     assert comet_score > 0.5, f"COMET score is too low! ({comet_score})"
-
-

@@ -1,8 +1,9 @@
+import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 def load_towerinstruct(parameters):
     """
-    Load the TowerInstruct model based on user input (7 for 7B, 13 for 13B).
+    Load the TowerInstruct model based on user input (7 for 7B, 13 for 13B) with GPU support.
     """
     model_name = None
 
@@ -12,18 +13,26 @@ def load_towerinstruct(parameters):
         model_name = "Unbabel/TowerInstruct-13B-v0.1"
     else:
         print("❌ Incorrect parameter passed! Use 7 or 13.")
-        return None, None
+        return None, None, None
 
     print(f"🔄 Loading {model_name} model...")
 
+    # Detect available device
+    if torch.cuda.is_available():
+        device = torch.device("cuda")  # NVIDIA GPU
+        print("🚀 Using NVIDIA GPU (CUDA)")
+    else:
+        device = torch.device("cpu")  # Default to CPU
+        print("⚠️ Using CPU (No GPU detected)")
+
     try:
         tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForCausalLM.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(model_name).to(device)  # Load model on GPU
         print(f"✅ Successfully loaded {model_name}!")
-        return model, tokenizer
+        return model, tokenizer, device
     except Exception as e:
         print(f"❌ Error loading {model_name}: {e}")
-        return None, None
+        return None, None, None
 
 def translate_text(model, tokenizer, text):
     """

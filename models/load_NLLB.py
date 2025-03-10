@@ -1,16 +1,26 @@
 import torch
-import torch_directml
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 #device = torch_directml.device(torch_directml.default_device())
 
 def load_model():
-    """Load the NLLB-200 model and tokenizer."""
+    """Load the NLLB-200 model and tokenizer with GPU support."""
     model_name = "facebook/nllb-200-distilled-600M"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)#.to(device)
-    print("Model loaded successfully!")
-    return model, tokenizer
+
+    # Detect available device
+    if torch.cuda.is_available():
+        device = torch.device("cuda")  # NVIDIA GPU
+        print("🚀 Using NVIDIA GPU (CUDA)")
+    else:
+        device = torch.device("cpu")  # Default to CPU
+        print("⚠️ Using CPU (No GPU detected)")
+
+    # Load model onto the selected device
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(device)
+    
+    print("✅ NLLB-200 Model loaded successfully!")
+    return model, tokenizer, device
 
 def translate_text(model, tokenizer, text, src_lang="eng_Latn", tgt_lang="spa_Latn"):
     """Translate text using NLLB-200 model."""

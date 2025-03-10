@@ -1,10 +1,15 @@
+import torch
 from transformers import MarianMTModel, MarianTokenizer
 
 def load_model(model_name):
-   """Load a translation model and tokenizer from Hugging Face."""
-   tokenizer = MarianTokenizer.from_pretrained(model_name)
-   model = MarianMTModel.from_pretrained(model_name)
-   return model, tokenizer
+    """Load a translation model and tokenizer from Hugging Face and move model to GPU if available."""
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    tokenizer = MarianTokenizer.from_pretrained(model_name)
+    model = MarianMTModel.from_pretrained(model_name).to(device)  # Move model to GPU
+
+    return model, tokenizer, device  # Return device for later use
+
 
 def translate_text(model, tokenizer, text):
    """Translate text using the specified model."""

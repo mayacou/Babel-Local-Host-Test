@@ -24,6 +24,12 @@ LANGUAGES_TO_TEST = {
     "sv": "sv_SE", "tr": "tr_TR"
 }
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if device.type == "cuda":
+    print(f"🚀 Using NVIDIA GPU: {torch.cuda.get_device_name(0)}")
+else:
+    print("⚠️ No NVIDIA GPU detected, using CPU instead.")
+
 def write_to_csv(model, language, bleu, comet):
     """Append a row to the CSV file."""
     file_exists = os.path.isfile(RESULTS_CSV)
@@ -49,7 +55,7 @@ def test_translation_quality(target_lang_code, request):
     print(f"🛠️ Loading Small100 model for {target_lang_code}...")
 
     # Load Small100 model
-    model = M2M100ForConditionalGeneration.from_pretrained("alirezamsh/small100")
+    model = M2M100ForConditionalGeneration.from_pretrained("alirezamsh/small100").to(device)
     tokenizer = SMALL100Tokenizer.from_pretrained("alirezamsh/small100", tgt_lang=target_lang_code)
 
     sources, references = load_wmt_data(target_lang_code)  # Now using load_wmt.py
@@ -63,7 +69,7 @@ def test_translation_quality(target_lang_code, request):
     hypotheses = []
     for sentence in sources:
         model_inputs = tokenizer(sentence, return_tensors="pt")
-        output_tokens = model.generate(**model_inputs, num_beams=5, max_length=256)
+        output_tokens = model.generate(**model_inputs, num_beams=10, max_length=256, early_stopping=True)
         hypothesis = tokenizer.batch_decode(output_tokens, skip_special_tokens=True)[0]
         hypotheses.append(hypothesis)
 
