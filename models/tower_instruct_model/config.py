@@ -1,1 +1,1 @@
-MODEL_NAME = "Unbabel/TowerInstruct-13B-v0.1"
+MODEL_NAME = "Unbabel/TowerInstruct-7B-v0.2"
