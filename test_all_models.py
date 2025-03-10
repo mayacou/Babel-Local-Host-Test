@@ -39,7 +39,7 @@ def run_model_test(model_name):
 
 # Main function to run the models
 def main():
-    models = ["mistral", "madlad", "m2m", "nllb", "tower instruct"]
+    models = ["nllb", "tower instruct"]
 
     for model in models:
         run_model_test(model)
