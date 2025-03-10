@@ -1,6 +1,0 @@
-Model,Target Language,BLEU Score,COMET Score
-Helsinki-NLP/opus-mt-tc-big-en-gmq,gmq,NA,NA
-Helsinki-NLP/opus-mt-en-sla,sla,NA,NA
-Helsinki-NLP/opus-mt-tc-base-en-sh,sh,NA,NA
-Helsinki-NLP/opus-mt-en-is,is,NA,NA
-Helsinki-NLP/opus-mt-tc-big-en-lv,lv,NA,NA

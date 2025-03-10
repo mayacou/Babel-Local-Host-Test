@@ -9,5 +9,12 @@ def load_model(model_name):
 def translate_text(model, tokenizer, text):
    """Translate text using the specified model."""
    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
-   translated = model.generate(**inputs)
+   translated = model.generate(
+      **inputs,
+      max_length=max_length,
+      max_new_tokens=max_new_tokens,
+      num_beams=5,  # Encourages more complete translations
+      length_penalty=1.2,  # Prevents overly short translations
+      early_stopping=False
+   )
    return tokenizer.decode(translated[0], skip_special_tokens=True)

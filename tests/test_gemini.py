@@ -10,7 +10,7 @@ from datasets_loader.load_europarl import load_europarl_data
 DATASETS = {
     "WMT": load_wmt_data,
     "TED": load_ted_data,
-    "OPUS": load_opus_data,
+    #"OPUS": load_opus_data,
     "Europarl": load_europarl_data
 }
 
@@ -48,7 +48,6 @@ with open(csv_filename, mode="w", newline="") as file:
                 prompt = f"Translate this sentence to {lang_pair.split('-')[-1]}: {src}"
                 translation = translate_text(model, prompt)
                 translations.append(translation)
-                print(f"✅ Gemini Translation: {translation}")
             
             # Compute metrics
             bleu = compute_bleu(references, translations)

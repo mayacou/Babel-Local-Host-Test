@@ -46,7 +46,7 @@ def load_wmt_data(language_pair):
     # Shuffle dataset for randomness
     random.seed(42)  # Ensures reproducibility
     random.shuffle(test_samples)
-    test_samples = test_samples[:5]  # Take 5 shuffled samples
+    test_samples = test_samples[:1]  # Take 5 shuffled samples
 
     sources = [sample["source"] for sample in test_samples]
     references = [sample["target"] for sample in test_samples]

@@ -60,6 +60,15 @@ LANG_ID_MAP = {
     "da": ">>dan<< ",
 }
 
+CACHE_DIR = os.path.expanduser("~/.cache/huggingface")  # Default cache location for Hugging Face models
+
+def clear_huggingface_cache():
+    if os.path.exists(CACHE_DIR):
+        print(f"Clearing Hugging Face cache at {CACHE_DIR}...")
+        shutil.rmtree(CACHE_DIR)
+    else:
+        print("No Hugging Face cache found to clear.")
+
 def translate(lang, model_name, source_sentences, reference_sentences):
     if not source_sentences or not reference_sentences:
         return -1, -1
@@ -73,12 +82,12 @@ def translate(lang, model_name, source_sentences, reference_sentences):
     model, tokenizer = load_model(model_name)
     translated_sentences = [translate_text(model, tokenizer, f"{lang_id}{sentence}") for sentence in source_sentences]
     bleu = compute_bleu(reference_sentences, translated_sentences)
-    comet = compute_comet(reference_sentences, translated_sentences, source_sentences) * 100
+    comet = compute_comet(reference_sentences, translated_sentences, source_sentences)
 
     return bleu, comet
     
 # Note: Helsinki only tests on ONE language, so no need to loop through language pairs.
-csv_filename = "Helsinki_test_results.csv"
+csv_filename = "data/Helsinki_test_results.csv"
 with open(csv_filename, mode="w", newline="") as file:
     writer = csv.writer(file)
     writer.writerow(["Model Name", "Dataset", "Language", "BLEU", "COMET"])
@@ -101,4 +110,4 @@ with open(csv_filename, mode="w", newline="") as file:
                     print(f"⚠️ Skipping {dataset_name} for {lang}: {e}")
                     writer.writerow([model, dataset_name, lang, "Skipped", "Skipped"])
                     file.flush()
-            
+        clear_huggingface_cache()

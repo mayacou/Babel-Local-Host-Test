@@ -1,6 +1,6 @@
 from datasets import load_dataset, get_dataset_config_names
 
-BATCH_SIZE = 5
+BATCH_SIZE = 1
 
 EUROPARL_LANG_PAIRS = [
     "bg", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "it",

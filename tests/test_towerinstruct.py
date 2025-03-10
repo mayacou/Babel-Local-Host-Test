@@ -10,7 +10,7 @@ from datasets_loader.load_europarl import load_europarl_data
 DATASETS = {
     "WMT": load_wmt_data,
     "TED": load_ted_data,
-    "OPUS": load_opus_data,
+    #"OPUS": load_opus_data,
     "Europarl": load_europarl_data
 }
 

@@ -57,7 +57,7 @@ def translate(source_sentences, target_language, reference_sentences):
         translations = response_content.split("\n")
         translations = [translation.strip("- ").strip() for translation in translations]
         bleu = compute_bleu(reference_sentences, translations)
-        comet = compute_comet(reference_sentences, translations, source_sentences) * 100
+        comet = compute_comet(reference_sentences, translations, source_sentences)
         return bleu, comet
     except Exception as e:
         print(f"Error during translation: {e}")

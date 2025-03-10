@@ -22,7 +22,7 @@ def translate(source_sentences, target_language, reference_sentences):
       result = client.translate(sentence, target_language=target_language)
       res.append(result["translatedText"])
    bleu = compute_bleu(reference_sentences, res)
-   comet = compute_comet(reference_sentences, res, source_sentences) * 100
+   comet = compute_comet(reference_sentences, res, source_sentences)
    return bleu, comet
         
 csv_filename = "GoogleCloud_test_results.csv"
