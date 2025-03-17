@@ -1,14 +1,14 @@
 #!/bin/bash
 echo "Running translation tests..."
 
-# Run tests
-# pytest -v -s tests/test_europarl_small100.py
-# rm -rf ~/.cache/huggingface/hub  # Delete Hugging Face cache
+Run tests
+pytest -v -s tests/test_europarl_small100.py
+rm -rf ~/.cache/huggingface/hub  # Delete Hugging Face cache
 
-# pytest -v -s tests/test_tedTalk_small100.py
-# rm -rf ~/.cache/huggingface/hub  # Delete Hugging Face cache
+pytest -v -s tests/test_tedTalk_small100.py
+rm -rf ~/.cache/huggingface/hub  # Delete Hugging Face cache
 
-# pytest -v -s tests/test_wmt_small100.py
+pytest -v -s tests/test_wmt_small100.py
 rm -rf ~/.cache/huggingface/hub  # Delete Hugging Face cache
 
 python3 -m tests.test_Helsinki.py
