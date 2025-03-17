@@ -46,7 +46,7 @@ def translate(source_sentences, target_language, reference_sentences):
         response = client.chat.completions.create(
             model=MODEL_NAME,
             messages=messages,
-            max_tokens=1000,
+            max_tokens=3000,
             temperature=0.7
         )
 
