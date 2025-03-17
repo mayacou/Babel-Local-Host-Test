@@ -20,7 +20,7 @@ def load_model():
     print("✅ M2M-100 Model loaded successfully!")
     return model, tokenizer, device
 
-def translate_text(model, tokenizer, text, src_lang="en", tgt_lang="es"):
+def translate_text(model, tokenizer, text, src_lang, tgt_lang, device):
     """Translate text using M2M-100 model."""
     tokenizer.src_lang = src_lang
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)

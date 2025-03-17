@@ -34,7 +34,7 @@ def load_towerinstruct(parameters):
         print(f"❌ Error loading {model_name}: {e}")
         return None, None, None
 
-def translate_text(model, tokenizer, text):
+def translate_text(model, tokenizer, text, device):
     """
     Translate text using the specified TowerInstruct model.
     """

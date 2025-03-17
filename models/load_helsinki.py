@@ -11,7 +11,7 @@ def load_model(model_name):
     return model, tokenizer, device  # Return device for later use
 
 
-def translate_text(model, tokenizer, text):
+def translate_text(model, tokenizer, text, device):
    """Translate text using the specified model."""
    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)
    translated = model.generate(

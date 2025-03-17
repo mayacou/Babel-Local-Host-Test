@@ -81,7 +81,7 @@ def translate(lang, model_name, source_sentences, reference_sentences):
         lang_id = LANG_ID_MAP.get(lang, "")
     
     model, tokenizer, device = load_model(model_name)
-    translated_sentences = [translate_text(model, tokenizer, f"{lang_id}{sentence}") for sentence in source_sentences]
+    translated_sentences = [translate_text(model, tokenizer, f"{lang_id}{sentence}", device) for sentence in source_sentences]
     bleu = compute_bleu(reference_sentences, translated_sentences)
     comet = compute_comet(reference_sentences, translated_sentences, source_sentences)
     

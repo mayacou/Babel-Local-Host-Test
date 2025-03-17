@@ -20,7 +20,7 @@ def load_model():
     print("✅ NLLB-200 Model loaded successfully!")
     return model, tokenizer, device
 
-def translate_text(model, tokenizer, text, src_lang="eng_Latn", tgt_lang="spa_Latn"):
+def translate_text(model, tokenizer, text, src_lang, tgt_lang, device):
     """Translate text using NLLB-200 model."""
     tokenizer.src_lang = src_lang
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True).to(device)

@@ -71,7 +71,7 @@ def test_translation_quality(dataset_name):
                 continue
 
             # Translate using mapped language code
-            hypotheses = [translate_text(model, tokenizer, src, "eng_Latn", nllb_language_code) for src in sources]
+            hypotheses = [translate_text(model, tokenizer, src, "eng_Latn", nllb_language_code,device) for src in sources]
 
             # Evaluate translation quality
             bleu_score = compute_bleu(references, hypotheses)
