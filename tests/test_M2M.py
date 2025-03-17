@@ -66,7 +66,7 @@ with open(RESULTS_CSV, mode="w", newline="") as results_file, open(TRANSLATIONS_
                 continue
 
             # ✅ Translate using mapped language code
-            hypotheses = [translate_text(model, tokenizer, src, "en", m2m_language_code, device) for src in sources]
+            hypotheses = [translate_text(model, tokenizer, src, "en", m2m_language_code) for src in sources]
             
             # ✅ Evaluate translation quality
             bleu_score = compute_bleu(references, hypotheses)

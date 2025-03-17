@@ -72,7 +72,7 @@ for model_version in [7, 13]:
                 for i, src in enumerate(sources):
                     print(f"🔄 Translating sentence {i+1}/{len(sources)}: {src[:50]}...")
                     try:
-                        translation = translate_text(model, tokenizer, src, device)
+                        translation = translate_text(model, tokenizer, src)
                         translations.append(translation)
                         print(f"✅ Translated: {translation[:50]}")
                         trans_writer.writerow([dataset_name, lang_pair, src, translation, references[i]])
