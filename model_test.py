@@ -9,6 +9,7 @@ from config.languages import ALL_DATASETS
 from scripts.data_loader import load_dataset_by_name
 import torch
 import gc
+import re
 
 # Logging Setup
 log_dir = "logs"
@@ -20,6 +21,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
 
 def run_test_for_language_pair(model_name, model, tokenizer, src_lang, tgt_lang, dataset_name, results_csv):
     print(f"Running test for {src_lang} -> {tgt_lang} using {dataset_name} dataset with {model_name}...")
@@ -43,7 +45,7 @@ def run_test_for_language_pair(model_name, model, tokenizer, src_lang, tgt_lang,
 
     # Perform inference
     try:
-        hypotheses, _ = perform_inference(sources, model_name, model, tokenizer, target_language=tgt_lang)
+        hypotheses, generated_references = perform_inference(sources, model_name, model, tokenizer, target_language=tgt_lang)
     except Exception as e:
         print(f"⚠️ Error during inference for {tgt_lang}: {e}")
         return -1, -1
@@ -66,8 +68,7 @@ def main():
     args = parser.parse_args()
 
     model_name = args.model
-    results_csv = f"data/test_results.csv" 
-
+    results_csv = f"data/test_results_{model_name}.csv"
     # Load the model and tokenizer once
     try:
         model, tokenizer = load_model_and_tokenizer(model_name)

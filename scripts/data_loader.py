@@ -1,7 +1,7 @@
 from datasets import load_dataset, get_dataset_config_names
 import random
 from config.languages import WMT_LANG_PAIRS
-BATCH_SIZE = 15
+BATCH_SIZE = 1
 
 def load_dataset_by_name(dataset_name, src_lang, trg_lang):
     """
