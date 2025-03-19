@@ -1,51 +1,63 @@
 import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
+def clean_output(text):
+    # Clean the output by removing everything before and after the markers
+    start_marker = "<!-- TRANSLATION_START -->"
+    end_marker = "<!-- TRANSLATION_END -->"
+    
+    if start_marker in text:
+        text = text.split(start_marker)[-1]  # Only take the part after the start marker
+    
+    if end_marker in text:
+        text = text.split(end_marker)[0]  # Only take the part before the end marker
+    
+    return text.strip()
+def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=None):
+    config = config or {"BEAM_SIZE": 5, "LENGTH_PENALTY": 1.2, "MAX_LENGTH": 400} 
+    generated_translations_src_to_tgt = []
 
-def perform_inference(test_data, model_name, model, tokenizer, target_language, config=None):
-    """
-    Perform inference using a model's generate method for a given test dataset.
-
-    Args:
-        test_data (list): List of input texts or dictionaries with a 'source' key.
-        model_name (str): The name of the model (for logging or config adjustments).
-        model: Loaded model supporting generate() or forward() methods.
-        tokenizer: Loaded tokenizer.
-        target_language (str): Target language code (e.g., 'fr' for French, 'ja' for Japanese).
-        config (dict, optional): Inference parameters (BEAM_SIZE, TEMPERATURE, TOP_K, TOP_P).
-
-    Returns:
-        tuple: (generated_translations, reference_translations).
-    """
-    config = config or {"BEAM_SIZE": 5, "TEMPERATURE": 1.0, "TOP_K": 50, "TOP_P": 0.95}
-    generated_translations, reference_translations = [], []
+    tokenizer.src_lang = src_lang
+    forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
 
     for example in test_data:
         input_text = example if isinstance(example, str) else example.get('source', '')
-        reference_translations.append(input_text.strip())
+
+        if not input_text:
+            generated_translations_src_to_tgt.append("")
+            continue
 
         try:
-            formatted_input = f"<s>[INST] Translate this to {target_language}: {input_text} [/INST]"
-            inputs = tokenizer(formatted_input, return_tensors="pt", padding=True, truncation=True).to(model.device)
+          
+            prompt = f"<s>[INST] Translate this to {tgt_lang}: {input_text}[/INST] <!-- TRANSLATION_START -->"
+
+            inputs = tokenizer(prompt, return_tensors="pt", padding=True, truncation=True).to(model.device)
 
             with torch.no_grad():
-                if hasattr(model, "generate"):
-                    output = model.generate(
-                        **inputs,
-                        num_beams=config["BEAM_SIZE"],
-                        temperature=config["TEMPERATURE"],
-                        early_stopping=True
-                    )
-                    generated_translation = tokenizer.decode(output[0], clean_up_tokenization_spaces=True).strip()
-                else:
-                    logits = model(**inputs).logits
-                    predicted_ids = logits.argmax(dim=-1)
-                    generated_translation = tokenizer.decode(predicted_ids[0], skip_special_tokens=True)
+                output = model.generate(
+                    **inputs,
+                    num_beams=config["BEAM_SIZE"],
+                    length_penalty=config["LENGTH_PENALTY"],
+                    early_stopping=False,
+                    forced_bos_token_id=forced_bos_token_id,
+                    max_length=config["MAX_LENGTH"]  
+                )
 
-            generated_translations.append(generated_translation.strip())
+            if output is None or output.size(0) == 0:
+                generated_translations_src_to_tgt.append("")
+                continue
+
+            # Decode tensor output safely
+            decoded_output = tokenizer.batch_decode(output, skip_special_tokens=True)
+            if decoded_output:
+                # Clean the output to remove anything before or after the marker
+                generated_translation_src_to_tgt = clean_output(decoded_output[0])
+                generated_translations_src_to_tgt.append(generated_translation_src_to_tgt.strip())
+            else:
+                generated_translations_src_to_tgt.append("")
+                continue
 
         except Exception as e:
-            print(f"⚠️ Error during {model_name} inference: {e}")
-            generated_translations.append("")
+            generated_translations_src_to_tgt.append("")
 
-    return generated_translations, reference_translations
-
+    return generated_translations_src_to_tgt
