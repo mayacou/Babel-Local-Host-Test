@@ -1,3 +1,7 @@
+packaging
+wheel
+torch
+nltk==3.9.1
 accelerate==1.4.0
 aiohappyeyeballs==2.4.6
 aiohttp==3.11.13
@@ -31,12 +35,11 @@ jsonargparse==3.13.1
 lightning-utilities==0.13.1
 lxml==5.3.1
 MarkupSafe==3.0.2
-mltk==0.0.5
 mpmath==1.3.0
 multidict==6.1.0
 multiprocess==0.70.16
 networkx==3.4.2
-nltk==3.9.1
+mltk==0.0.5
 numpy==1.26.4
 nvidia-cublas-cu12==12.4.5.8
 nvidia-cuda-cupti-cu12==12.4.127
@@ -53,7 +56,6 @@ nvidia-nccl-cu12==2.21.5
 nvidia-nvjitlink-cu12==12.4.127
 nvidia-nvtx-cu12==12.4.127
 nvidia-pyindex==1.0.9
-packaging==24.2
 pandas==2.2.3
 pillow==11.1.0
 portalocker==3.1.1
@@ -76,7 +78,6 @@ sympy==1.13.1
 tabulate==0.9.0
 tokenizers==0.21.0
 tomli==2.2.1
-torch==2.6.0
 torchaudio==2.6.0
 torchmetrics==0.10.3
 torchvision==0.21.0

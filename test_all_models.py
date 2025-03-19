@@ -22,7 +22,7 @@ def run_model_test(model_name):
     # Run the model test script with the model name and capture output in real-time
     try:
         process = subprocess.Popen(
-            ["python3", "model_test.py", model_name],
+            ["python3", "test_model.py", model_name],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True

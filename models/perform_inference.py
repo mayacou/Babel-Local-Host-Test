@@ -13,6 +13,7 @@ def clean_output(text):
         text = text.split(end_marker)[0]  # Only take the part before the end marker
     
     return text.strip()
+
 def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=None):
     config = config or {"BEAM_SIZE": 5, "LENGTH_PENALTY": 1.2, "MAX_LENGTH": 400} 
     generated_translations_src_to_tgt = []
