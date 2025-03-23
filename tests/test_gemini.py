@@ -2,14 +2,14 @@ import csv
 from models.load_gemini import load_gemini, translate_text
 from helpers.evaluation import compute_bleu, compute_comet
 from datasets_loader.load_wmt import load_wmt_data
-from datasets_loader.load_ted import load_ted_data
+from datasets_loader.load_tedTalk import load_tedTalk_data
 from datasets_loader.load_opus import load_opus_data
 from datasets_loader.load_europarl import load_europarl_data
 
 # Datasets to test
 DATASETS = {
     "WMT": load_wmt_data,
-    "TED": load_ted_data,
+    "TED": load_tedTalk_data,
     # "OPUS": load_opus_data,
     "Europarl": load_europarl_data
 }
@@ -30,7 +30,7 @@ os.makedirs("translation_results", exist_ok=True)
 
 def write_to_csv(dataset, language, bleu, comet):
     """Append a row to the results CSV file."""
-    with open(csv_filename, mode="a", newline="") as file:
+    with open(csv_filename, mode="a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         if file.tell() == 0:  # Write header only if the file is empty
             writer.writerow(["Dataset", "Language", "BLEU", "COMET"])
@@ -38,7 +38,7 @@ def write_to_csv(dataset, language, bleu, comet):
 
 def write_translations_to_csv(dataset, language, sources, hypotheses, references):
     """Append source sentences, translations, and references to a separate CSV file."""
-    with open(translations_csv_filename, mode="a", newline="") as file:
+    with open(translations_csv_filename, mode="a", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         if file.tell() == 0:  # Write header only if the file is empty
             writer.writerow(["Dataset", "Language", "Source Sentence", "Translation", "Reference Sentence"])
@@ -53,6 +53,15 @@ for dataset_name, dataset_loader in DATASETS.items():
         language_pairs = dataset_loader("get_languages")
     except Exception as e:
         print(f"⚠️ Skipping {dataset_name}: Could not fetch language pairs ({e})")
+        continue
+
+    for lang_pair in language_pairs:
+        print(f"🔄 Testing Gemini on {dataset_name} ({lang_pair})")
+        
+        # Get available language pairs from dataset loader
+        language_pairs = dataset_loader("get_languages")
+        except Exception as e:
+            print(f"⚠️ Skipping {dataset_name}: Could not fetch language pairs ({e})")
         continue
 
     for lang_pair in language_pairs:
