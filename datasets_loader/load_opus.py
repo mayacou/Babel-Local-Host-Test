@@ -18,7 +18,7 @@ def load_opus_data(language_pair):
         print(f"⚠️ Skipping {language_pair}: No usable split found.")
         return [], []
 
-    test_samples = list(dataset[split])[:5]  # Take 5 samples
+    test_samples = list(dataset[split])[:1]  # Take 5 samples
     sources = [sample["source"] for sample in test_samples]
     references = [sample["target"] for sample in test_samples]
     

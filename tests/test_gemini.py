@@ -19,11 +19,9 @@ print("🔄 Loading Gemini model...")
 model = load_gemini()
 print("✅ Gemini model loaded successfully!")
 
-# Open CSV file to store results
-csv_filename = "gemini_results.csv"
-with open(csv_filename, mode="w", newline="") as file:
-    writer = csv.writer(file)
-    writer.writerow(["Dataset", "Language", "BLEU", "COMET"])
+# Define CSV paths
+csv_filename = "data/gemini_results.csv"
+translations_csv_filename = "translation_results/gemini_translations.csv"
 
 # Ensure directories exist
 import os
@@ -60,34 +58,36 @@ for dataset_name, dataset_loader in DATASETS.items():
     for lang_pair in language_pairs:
         print(f"🔄 Testing Gemini on {dataset_name} ({lang_pair})")
         
-        # Get available language pairs from dataset loader
-        language_pairs = dataset_loader("get_languages")
-        
-        for lang_pair in language_pairs:
-            print(f"🔄 Testing Gemini on {dataset_name} ({lang_pair})")
-            
+        try:
             sources, references = dataset_loader(lang_pair)
-            
             if not sources:
                 print(f"⚠️ Skipping {lang_pair} for {dataset_name}: No data available.")
-                writer.writerow([dataset_name, lang_pair, "NA", "NA"])
+                write_to_csv(dataset_name, lang_pair, "NA", "NA")
                 continue
+        except Exception as e:
+            print(f"⚠️ Skipping {dataset_name} ({lang_pair}): Dataset loading error ({e})")
+            write_to_csv(dataset_name, lang_pair, "NA", "NA")
+            continue
 
-            # Translate sentences with progress logging
-            translations = []
-            for i, src in enumerate(sources):
-                print(f"🔄 Prompting Gemini: Translating sentence {i+1}/{len(sources)}: {src[:50]}...")
+        # Translate sentences with progress logging
+        translations = []
+        for i, src in enumerate(sources):
+            print(f"🔄 Prompting Gemini: Translating sentence {i+1}/{len(sources)}: {src[:50]}...")
+            try:
                 prompt = f"Translate this sentence to {lang_pair.split('-')[-1]}: {src}"
                 translation = translate_text(model, prompt)
                 translations.append(translation)
-                print(f"✅ Gemini Translation: {translation}")
-            
-            # Compute metrics
-            bleu = compute_bleu(references, translations)
-            comet = compute_comet(references, translations, sources)
-            print(f"📊 BLEU: {round(bleu, 2)}, COMET: {round(comet, 2)}")
-            
-            # Save to CSV
-            writer.writerow([dataset_name, lang_pair, round(bleu, 2), round(comet, 2)])
-            print(f"✅ Saved results for Gemini on {dataset_name} ({lang_pair})")
+            except Exception as e:
+                print(f"⚠️ Translation error for {lang_pair}: {e}")
+                translations.append("ERROR")
 
+        # Compute metrics
+        bleu = compute_bleu(references, translations)
+        comet = compute_comet(references, translations, sources)
+        print(f"📊 BLEU: {round(bleu, 2)}, COMET: {round(comet, 2)}")
+
+        # Save to CSV
+        write_to_csv(dataset_name, lang_pair, round(bleu, 2), round(comet, 2))
+        write_translations_to_csv(dataset_name, lang_pair, sources, translations, references)
+
+        print(f"✅ Saved results for Gemini on {dataset_name} ({lang_pair})")
