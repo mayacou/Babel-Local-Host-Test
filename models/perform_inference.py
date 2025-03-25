@@ -26,6 +26,7 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
             print(f"Successfully set tokenizer.src_lang to {tokenizer.src_lang}")
         else:
             print(f"Tokenizer does not support 'src_lang'. Skipping this step.")
+            tokenizer.src_lang = None  # Ensure no value is assigned
     except Exception as e:
         if debug:
             print(f"Error setting tokenizer.src_lang: {e}")
