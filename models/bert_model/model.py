@@ -1,13 +1,13 @@
-from transformers import AutoTokenizer, BertConfig, BertModel
+from transformers import AutoTokenizer, AutoModel
 from models.bert_model.config import MODEL_NAME, TOKENIZER_NAME, DEVICE_MAP, TORCH_DTYPE, PAD_TOKEN
 
 def bert_load():
     """
-    Load a multilingual BERT model and tokenizer for English-to-Multi-Language tasks.
+    Load a multilingual BERT model and tokenizer for multi-language tasks.
 
     Returns:
-        model: Loaded BERT model (potentially for fine-tuning).
-        tokenizer: Loaded tokenizer for multilingual BERT.
+        model: Loaded multilingual BERT model.
+        tokenizer: Loaded tokenizer.
     """
     # Load the tokenizer
     tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_NAME)
@@ -16,10 +16,11 @@ def bert_load():
     if tokenizer.pad_token is None:
         tokenizer.add_special_tokens({'pad_token': PAD_TOKEN})
 
-    # Initializing a multilingual BERT configuration
-    configuration = BertConfig.from_pretrained(MODEL_NAME)
-
-    # Load the BERT model with the specified configuration
-    model = BertModel.from_pretrained(MODEL_NAME, config=configuration)
+    # Load the model with from_tf=True to support TensorFlow weights
+    try:
+        model = AutoModel.from_pretrained(MODEL_NAME, from_tf=True)
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        return None, None
 
     return model, tokenizer
