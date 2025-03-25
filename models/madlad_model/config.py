@@ -1,7 +1,7 @@
 import torch
 
 # Model Configuration
-MODEL_NAME = "santhosh/madlad400-3b-ct2"  # MADLAD model name
+MODEL_NAME = "google-bert/bert-base-multilingual-uncased"  # MADLAD model name
 ATTN_IMPLEMENTATION = "eager"  # Attention implementation
 DEVICE_MAP = "auto"  # Automatically map model to available devices
 TORCH_DTYPE = torch.float16  # Data type for model weights (float16 for GPU efficiency)
