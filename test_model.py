@@ -43,7 +43,7 @@ def run_test_for_language_pair(model_name, model, tokenizer, src_lang, tgt_lang,
 
     print("📚 SOURCES -> " , sources)
     try:
-        hypotheses = perform_inference(sources, model, tokenizer, src_lang, tgt_lang)
+        hypotheses = perform_inference(sources, model, tokenizer, src_lang, tgt_lang, model_name)
         hypotheses = [hyp.strip().lower() for hyp in hypotheses]
     except Exception as e:
         print(f"❌ Error during inference for {src_lang} -> {tgt_lang}: {e}")
