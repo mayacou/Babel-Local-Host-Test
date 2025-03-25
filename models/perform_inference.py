@@ -20,9 +20,12 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
 
     # Safe check for setting src_lang
     try:
-        print(f"Setting tokenizer.src_lang to {src_lang}")
-        tokenizer.src_lang = src_lang
-        print(f"Successfully set tokenizer.src_lang to {tokenizer.src_lang}")
+        if hasattr(tokenizer, 'src_lang'):
+            print(f"Setting tokenizer.src_lang to {src_lang}")
+            tokenizer.src_lang = src_lang
+            print(f"Successfully set tokenizer.src_lang to {tokenizer.src_lang}")
+        else:
+            print(f"Tokenizer does not support 'src_lang'. Skipping this step.")
     except Exception as e:
         if debug:
             print(f"Error setting tokenizer.src_lang: {e}")
@@ -31,11 +34,16 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
 
     # Safe check for converting tgt_lang to token id
     try:
-        forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
-        print(f"Successfully converted {tgt_lang} to token ID: {forced_bos_token_id}")
+        if hasattr(tokenizer, 'convert_tokens_to_ids'):
+            forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
+            print(f"Successfully converted {tgt_lang} to token ID: {forced_bos_token_id}")
+        else:
+            print(f"Tokenizer does not support 'convert_tokens_to_ids'. Skipping this step.")
+            forced_bos_token_id = None  # Handle fallback or default behavior
+            print(f"Using default forced_bos_token_id: {forced_bos_token_id}")
     except Exception as e:
         if debug:
-            print(f"Error converting tgt_lang to token ID: {e}")
+            print(f"Error converting {tgt_lang} to token ID: {e}")
         forced_bos_token_id = None  # Handle fallback or default behavior
         print(f"Using default forced_bos_token_id: {forced_bos_token_id}")
 
@@ -85,7 +93,7 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
 
         except Exception as e:
             if debug:
-                print(f"Error: {e}")
+                print(f"Error during inference: {e}")
                 traceback.print_exc()
             generated_translations_src_to_tgt.append("")
 
