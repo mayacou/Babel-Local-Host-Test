@@ -18,7 +18,8 @@ def clean_output(text):
 def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=None, debug=True):
     config = config or {"BEAM_SIZE": 5, "LENGTH_PENALTY": 1.2, "MAX_LENGTH": 400}
     generated_translations_src_to_tgt = []
-
+    
+    print(f"Setting tokenizer.src_lang to {src_lang}")
     tokenizer.src_lang = src_lang
     print("CHECKING SOMETHING")
     forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
