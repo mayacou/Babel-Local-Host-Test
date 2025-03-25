@@ -20,7 +20,9 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
     generated_translations_src_to_tgt = []
 
     tokenizer.src_lang = src_lang
+    print("CHECKING SOMETHING")
     forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
+    print("CHECKING SOMETHING 2")
 
     for example in test_data:
         input_text = example if isinstance(example, str) else example.get('source', '')
