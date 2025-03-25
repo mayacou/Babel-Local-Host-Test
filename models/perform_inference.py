@@ -3,7 +3,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import traceback
 
 def clean_output(text):
-    # Clean the output by removing everything before and after the markers
     start_marker = "<!-- TRANSLATION_START -->"
     end_marker = "<!-- TRANSLATION_END -->"
     
@@ -18,12 +17,27 @@ def clean_output(text):
 def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=None, debug=True):
     config = config or {"BEAM_SIZE": 5, "LENGTH_PENALTY": 1.2, "MAX_LENGTH": 400}
     generated_translations_src_to_tgt = []
-    
-    print(f"Setting tokenizer.src_lang to {src_lang}")
-    tokenizer.src_lang = src_lang
-    print("CHECKING SOMETHING")
-    forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
-    print("CHECKING SOMETHING 2")
+
+    # Safe check for setting src_lang
+    try:
+        print(f"Setting tokenizer.src_lang to {src_lang}")
+        tokenizer.src_lang = src_lang
+        print(f"Successfully set tokenizer.src_lang to {tokenizer.src_lang}")
+    except Exception as e:
+        if debug:
+            print(f"Error setting tokenizer.src_lang: {e}")
+        tokenizer.src_lang = None  # Set to None or a safe default
+        print(f"Using default tokenizer.src_lang: {tokenizer.src_lang}")
+
+    # Safe check for converting tgt_lang to token id
+    try:
+        forced_bos_token_id = tokenizer.convert_tokens_to_ids(tgt_lang)
+        print(f"Successfully converted {tgt_lang} to token ID: {forced_bos_token_id}")
+    except Exception as e:
+        if debug:
+            print(f"Error converting tgt_lang to token ID: {e}")
+        forced_bos_token_id = None  # Handle fallback or default behavior
+        print(f"Using default forced_bos_token_id: {forced_bos_token_id}")
 
     for example in test_data:
         input_text = example if isinstance(example, str) else example.get('source', '')
@@ -33,16 +47,15 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
             continue
 
         try:
-            # Construct the prompt for translation
             prompt = f"<s>[INST] Translate this to {tgt_lang}: {input_text}[/INST] <!-- TRANSLATION_START -->"
             
             if debug:
-                print(f"Prompt: {prompt}")  # Debugging: print the prompt
+                print(f"Prompt: {prompt}")
 
             inputs = tokenizer(prompt, return_tensors="pt", padding=True, truncation=True).to(model.device)
             
             if debug:
-                print(f"Inputs: {inputs}")  # Debugging: print tokenized inputs
+                print(f"Inputs: {inputs}")
 
             with torch.no_grad():
                 output = model.generate(
@@ -58,14 +71,12 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
                 generated_translations_src_to_tgt.append("")
                 continue
 
-            # Decode tensor output safely
             decoded_output = tokenizer.batch_decode(output, skip_special_tokens=True)
 
             if debug:
-                print(f"Decoded output: {decoded_output}")  # Debugging: check decoded output
+                print(f"Decoded output: {decoded_output}")
 
             if decoded_output:
-                # Clean the output to remove anything before or after the marker
                 generated_translation_src_to_tgt = clean_output(decoded_output[0])
                 generated_translations_src_to_tgt.append(generated_translation_src_to_tgt.strip())
             else:
@@ -74,8 +85,8 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
 
         except Exception as e:
             if debug:
-                print(f"Error: {e}")  # Debugging: print error if one occurs
-                traceback.print_exc()  # Print full traceback for debugging
+                print(f"Error: {e}")
+                traceback.print_exc()
             generated_translations_src_to_tgt.append("")
 
     return generated_translations_src_to_tgt
