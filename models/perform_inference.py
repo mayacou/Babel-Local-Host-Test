@@ -19,10 +19,12 @@ def perform_inference(test_data, model, tokenizer, src_lang, tgt_lang, config=No
     generated_translations_src_to_tgt = []
 
     # Safe check for setting src_lang
+    valid_langs = getattr(tokenizer, "langs", None)
+    print(valid_langs)
     try:
         if hasattr(tokenizer, 'src_lang'):
             print(f"Setting tokenizer.src_lang to {src_lang}")
-            tokenizer.src_lang = src_lang
+            tokenizer.src_lang = "english"
             print(f"Successfully set tokenizer.src_lang to {tokenizer.src_lang}")
         else:
             print(f"Tokenizer does not support 'src_lang'. Skipping this step.")
