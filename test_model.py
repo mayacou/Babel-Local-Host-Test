@@ -41,14 +41,19 @@ def run_test_for_language_pair(model_name, model, tokenizer, src_lang, tgt_lang,
 
     references = [ref.strip().lower() for ref in references]
 
-    print("📚 SOURCES -> " , sources)
+    print("📚 SOURCES -> ", sources)
     try:
         hypotheses = perform_inference(sources, model, tokenizer, src_lang, tgt_lang, model_name)
         hypotheses = [hyp.strip().lower() for hyp in hypotheses]
     except Exception as e:
         print(f"❌ Error during inference for {src_lang} -> {tgt_lang}: {e}")
-        return -1 , -1  # Only return BLEU score now
+        return -1, -1  # Only return BLEU score now
     
+    # Return early if hypotheses are empty
+    if not hypotheses or all(not hyp.strip() for hyp in hypotheses):
+        print(f"⚠️ Skipping {tgt_lang}: No valid translations generated.")
+        return -1, -1
+
     # Debugging: Print sample references and hypotheses
     print(f"🔍 Sample References ({tgt_lang}): {references[:3]}")
     print(f"🔍 Sample Hypotheses ({tgt_lang}): {hypotheses[:3]}")
@@ -68,6 +73,7 @@ def run_test_for_language_pair(model_name, model, tokenizer, src_lang, tgt_lang,
     write_all_translations_to_csv(sources, hypotheses, references, all_translations_csv, src_lang, tgt_lang)
 
     return bleu_score, comet_score
+
 
 
 def main():
