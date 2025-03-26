@@ -58,15 +58,6 @@ for dataset_name, dataset_loader in DATASETS.items():
     for lang_pair in language_pairs:
         print(f"🔄 Testing Gemini on {dataset_name} ({lang_pair})")
         
-        # Get available language pairs from dataset loader
-        language_pairs = dataset_loader("get_languages")
-        except Exception as e:
-            print(f"⚠️ Skipping {dataset_name}: Could not fetch language pairs ({e})")
-        continue
-
-    for lang_pair in language_pairs:
-        print(f"🔄 Testing Gemini on {dataset_name} ({lang_pair})")
-        
         try:
             sources, references = dataset_loader(lang_pair)
             if not sources:
