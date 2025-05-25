@@ -22,8 +22,8 @@ DATASETS = {
 }
 
 # Configuration
-RESULTS_CSV = "data/ChatGPT_test_results.csv"
-TRANSLATIONS_CSV = "translation_results/ChatGPT_translations.csv"
+RESULTS_CSV = "data/scores/ChatGPT_test_results.csv"
+TRANSLATIONS_CSV = "data/translations/ChatGPT_translations.csv"
 MODEL_NAME = "gpt-4o-mini"
 
 # Ensure directories exist

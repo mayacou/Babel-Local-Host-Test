@@ -59,8 +59,8 @@ LANG_ID_MAP = {
 CACHE_DIR = os.path.expanduser("~/.cache/huggingface")
 
 # ✅ Define CSV Files
-RESULTS_CSV = "data/Helsinki_test_results.csv"
-TRANSLATIONS_CSV = "translation_results/Helsinki_translations.csv"
+RESULTS_CSV = "data/scores/Helsinki_test_results.csv"
+TRANSLATIONS_CSV = "data/translations/Helsinki_translations.csv"
 
 # ✅ Clear Hugging Face Cache
 def clear_huggingface_cache():

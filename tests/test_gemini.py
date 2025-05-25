@@ -20,8 +20,8 @@ model = load_gemini()
 print("✅ Gemini model loaded successfully!")
 
 # Define CSV paths
-csv_filename = "data/gemini_results.csv"
-translations_csv_filename = "translation_results/gemini_translations.csv"
+csv_filename = "data/scores/gemini_results.csv"
+translations_csv_filename = "data/translations/gemini_translations.csv"
 
 # Ensure directories exist
 import os

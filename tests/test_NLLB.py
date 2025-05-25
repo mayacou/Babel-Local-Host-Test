@@ -11,8 +11,8 @@ from datasets_loader.load_tedTalk import load_tedTalk_data
 from datasets_loader.load_wmt import load_wmt_data
 
 # Define output CSV files
-RESULTS_CSV = "data/NLLB200_test_results.csv"
-TRANSLATIONS_CSV = "translation_results/NLLB200_translations.csv"
+RESULTS_CSV = "data/scores/NLLB200_test_results.csv"
+TRANSLATIONS_CSV = "data/translations/NLLB200_translations.csv"
 
 # Ensure output directory exists
 os.makedirs("translation_results", exist_ok=True)

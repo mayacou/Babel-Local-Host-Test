@@ -1,4 +1,0 @@
-Dataset,Language,BLEU,COMET
-Europarl,bg,44.85,95.88
-Europarl,cs,31.61,95.35
-Europarl,da,28.03,84.3

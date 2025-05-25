@@ -9,8 +9,8 @@ from datasets_loader.load_wmt import load_wmt_data
 # Setup
 os.makedirs("data", exist_ok=True)
 os.makedirs("translation_results", exist_ok=True)
-RESULTS_CSV = "data/small100_results(maya).csv"
-TRANSLATIONS_CSV = "translation_results/small100_translations(maya).csv"
+RESULTS_CSV = "data/scores/small100_results(maya).csv"
+TRANSLATIONS_CSV = "data/translations/small100_translations(maya).csv"
 
 DATASETS = {
     "TED": load_tedTalk_data,

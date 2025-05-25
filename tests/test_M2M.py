@@ -9,8 +9,8 @@ from datasets_loader.load_tedTalk import load_tedTalk_data
 from datasets_loader.load_wmt import load_wmt_data
 
 # ✅ Define output CSV files
-RESULTS_CSV = "data/M2M100_test_results.csv"
-TRANSLATIONS_CSV = "translation_results/M2M100_translations.csv"
+RESULTS_CSV = "data/scores/M2M100_test_results.csv"
+TRANSLATIONS_CSV = "data/translations/M2M100_translations.csv"
 
 # ✅ Ensure output directories exist
 os.makedirs("translation_results", exist_ok=True)

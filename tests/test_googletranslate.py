@@ -21,8 +21,8 @@ DATASETS = {
    "Europarl": load_europarl_data
 }
 
-RESULTS_CSV = "data/GoogleCloud_test_results.csv"
-TRANSLATIONS_CSV = "translation_results/GoogleCloud_translations.csv"
+RESULTS_CSV = "data/scores/GoogleCloud_test_results.csv"
+TRANSLATIONS_CSV = "data/translations/GoogleCloud_translations.csv"
 
 def write_to_csv(dataset, language, bleu, comet):
     """Append a row to the results CSV file."""
