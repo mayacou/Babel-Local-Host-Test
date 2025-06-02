@@ -1,0 +1,8 @@
+Model Name,Dataset,Language,BLEU,COMET
+Helsinki-NLP/opus-mt-tc-big-en-gmq,WMT,no,19.22,0.74
+Helsinki-NLP/opus-mt-tc-big-en-gmq,TED,no,15.23,0.84
+Helsinki-NLP/opus-mt-tc-big-en-gmq,WMT,sv,38.85,0.78
+Helsinki-NLP/opus-mt-tc-big-en-gmq,TED,sv,41.37,0.9
+Helsinki-NLP/opus-mt-tc-big-en-gmq,WMT,is,13.61,0.7
+Helsinki-NLP/opus-mt-tc-big-en-gmq,WMT,da,33.28,0.76
+Helsinki-NLP/opus-mt-tc-big-en-gmq,TED,da,39.0,0.85

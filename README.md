@@ -11,6 +11,8 @@
 To evaluate a model, run the corresponding Python file from the `tests/` folder. Replace `<model_name>` with the name of the model.
 Make sure to look at the test code and see if it is run with pytest.
 
+To test a finetuned model, go to the NewTests folder and run finetune_test.py. Make sure to add the new model link in MODELS_TO_TEST array.
+
 ### Run commands:
 ### Without Pytest:
 ```bash

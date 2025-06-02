@@ -3,8 +3,8 @@ from datasets import load_dataset, get_dataset_config_names
 
 
 TED_LANG_PAIRS = [ 
-    "sq", "bg", "hr", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "is", "it", 
-    "lv", "lt", "mk", "nb", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr"
+    "sq", "bg", "hr", "cs", "da", "nl", "et", "fi", "fr", "de", "el", "hu", "it", 
+    "lv", "lt", "mk", "nb", "pl", "pt", "ro", "sk", "sl", "es", "sv", "tr", "nb",
 ]
 
 
@@ -25,6 +25,7 @@ def load_tedTalk_data(target_lang_code, source_lang="en"):
     available_configs = get_dataset_config_names(dataset_name, trust_remote_code=True)
 
     # Check if the requested language pair exists
+    if target_lang_code == "no": target_lang_code = "nb"
     config_name = f"{source_lang}_{target_lang_code}"
     if config_name not in available_configs:
         print(f"⚠️ Language pair '{config_name}' not found in TED Talks dataset.")

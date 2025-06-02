@@ -8,7 +8,7 @@ LANGUAGE_CODE_MAP = {
     "fi": "fi_FI", "fr": "fr_FR", "hu": "hu_HU",
     "is": "is_IS", "it": "it_IT", "lt": "lt_LT", "lv": "lv_LV",
     "nl": "nl_NL", "pl": "pl_PL", "pt": "pt_PT", "ro": "ro_RO",
-    "sk": "sk_SK", "sv": "sv_SE", "tr": "tr_TR", "hr": "hr_HR"
+    "sk": "sk_SK", "sv": "sv_SE", "tr": "tr_TR", "hr": "hr_HR", "no": "no_NO",
 }
 
 def load_wmt_data(language_pair):
