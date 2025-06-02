@@ -3,10 +3,10 @@ from models.load_helsinki import load_model, translate_text
 from helpers.evaluation import compute_bleu, compute_comet
 from datasets_loader.load_wmt import load_wmt_data
 from datasets_loader.load_tedTalk import load_tedTalk_data
-from datasets_loader.load_europarl import load_europarl_data
+from datasets_loader.load_montenegrinsubs import load_montenegrin_data
 
 DATASETS = {
-   #"Europarl": load_europarl_data,
+   "montenegrin": load_montenegrin_data,
    "WMT": load_wmt_data, # has no
    "TED": load_tedTalk_data # has no as nb 
 }
